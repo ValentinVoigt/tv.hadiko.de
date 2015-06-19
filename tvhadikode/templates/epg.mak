@@ -80,16 +80,6 @@
                                 </small>
                             </td>
                         </tr>
-                        <!-- <ul class="hide">
-                            % for program in service.future_programs[:10]:
-                                <li>
-                                    % if program.is_running():
-                                        <span class="label label-info">Live</span>
-                                    % endif
-                                    ${program.name} at ${program.start}
-                                </li>
-                            % endfor
-                        </ul> -->
                     % endfor
                 </tbody>
             </table>
