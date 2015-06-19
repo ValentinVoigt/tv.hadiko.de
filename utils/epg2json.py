@@ -67,7 +67,7 @@ class EPGReader():
 
         if not self.in_type in ['stream', 'adapter']:
             raise EPGDepsFailedException("EPGReader.in_type must be in ['stream', 'adapter'] (is %s)." % self.in_type)
-    
+
         try:
             assert int(self.max_duplicates > 0)
         except:
@@ -98,7 +98,7 @@ class EPGReader():
             if self.verbose:
                 print('Input type:\t\t\t\tDVB adapter')
                 print('Snooping EPG from\t\t\t/dev/dvb/adapter%s/dvr%s' % (in_source, in_source))
-        
+
         # Start snooping
         snoop_proc = subprocess.Popen(sniff_cmd,
                 bufsize=-1, shell=True,
@@ -114,7 +114,7 @@ class EPGReader():
             if packet_counter % 1000 == 0 and self.verbose:
                 sys.stdout.write('\rRecived packets\t\t\t\t%s/%s' % (dup_counter, self.max_duplicates))
                 sys.stdout.flush()
-            
+
             # Line parsing
             if line == None:
                 print('dvbsnoop exited.\n')
@@ -167,7 +167,7 @@ class EPGReader():
                 time_format = '%Y-%m-%d %H:%M:%S'
                 try: stime = datetime.datetime.strptime(stime, time_format)
                 except:    continue
-        
+
         if self.verbose:
             print("\n")
         snoop_proc.stdout.flush()
@@ -184,7 +184,7 @@ class EPGReader():
         # Kill all procs
         # Is this really necessary?
         kill_cmds = []# [dvbsnoop, tsudprecv]
-        
+
         for cmd in kill_cmds:
             cmd = 'killall -9 %s' % cmd
             subprocess.Popen(cmd, shell=True, stdout=self.devnull, stderr=self.devnull)

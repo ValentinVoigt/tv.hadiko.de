@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, ForeignKey, Integer, Text, String, DateTime
+from sqlalchemy import and_, Column, ForeignKey, Integer, Text, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship, backref
 
@@ -38,9 +38,16 @@ class Service(Base):
     id = Column(Integer, primary_key=True)
     sid = Column(Integer, nullable=False, unique=True) # Service ID
     name = Column(String(255), nullable=False)
+    slug = Column(String(255), nullable=False)
     multicast_ip = Column(String(255), nullable=False)
     unicast_url = Column(String(255), nullable=False)
+
     programs = relationship("Program", backref="service", order_by="Program.start")
+
+    future_programs = relationship(
+        "Program",
+        primaryjoin=lambda: and_(Service.sid==Program.sid, Program.end>=datetime.now()),
+        order_by="Program.start")
 
 class Program(Base):
     """

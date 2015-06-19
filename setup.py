@@ -15,7 +15,8 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
-    'python-dateutil'
+    'python-dateutil',
+    'awesome-slugify',
     ]
 
 setup(name='tv.hadiko.de',

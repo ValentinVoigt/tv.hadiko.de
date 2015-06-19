@@ -5,6 +5,7 @@ import urllib2
 import transaction
 
 from pyramid.paster import bootstrap
+from slugify import slugify
 
 from ..models import DBSession, Base, Service
 
@@ -29,6 +30,7 @@ def import_services(urls):
             DBSession.add(Service(
                 sid=channel['service_id'],
                 name=channel['name'],
+                slug=slugify(channel['name'], to_lower=True, may_length=255),
                 multicast_ip="%s:%i" % (channel['ip_multicast'], channel['port_multicast']),
                 unicast_url="%s/bysid/%i" % (url, channel['service_id'])
             ))
