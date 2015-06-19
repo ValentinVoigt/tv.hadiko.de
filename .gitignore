@@ -1,1 +1,5 @@
-*.pyc
+/development.ini
+/production.ini
+/tv.hadiko.de.egg-info
+__pycache__/
+/tv.hadiko.de.sqlite
