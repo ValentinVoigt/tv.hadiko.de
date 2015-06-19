@@ -3,10 +3,8 @@ import os
 from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(here, 'README.txt')) as f:
+with open(os.path.join(here, 'README.md')) as f:
     README = f.read()
-with open(os.path.join(here, 'CHANGES.txt')) as f:
-    CHANGES = f.read()
 
 requires = [
     'pyramid',
@@ -17,12 +15,13 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
+    'python-dateutil'
     ]
 
 setup(name='tv.hadiko.de',
       version='0.0',
       description='tv.hadiko.de',
-      long_description=README + '\n\n' + CHANGES,
+      long_description=README,
       classifiers=[
         "Programming Language :: Python",
         "Framework :: Pyramid",
@@ -42,6 +41,8 @@ setup(name='tv.hadiko.de',
       [paste.app_factory]
       main = tvhadikode:main
       [console_scripts]
-      initialize_tv.hadiko.de_db = tvhadikode.scripts.initializedb:main
+      tv_create_tables = tvhadikode.scripts.create_tables:main
+      tv_import_services = tvhadikode.scripts.import_services:main
+      tv_import_epg = tvhadikode.scripts.import_epg:main
       """,
       )
