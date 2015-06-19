@@ -1,10 +1,13 @@
 # -*- encoding: utf-8 -*-
 
 from datetime import datetime
+import pytz
+from dateutil import tz
 
 from sqlalchemy import and_, Column, ForeignKey, Integer, Text, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship, backref
+from sqlalchemy.ext.hybrid import Comparator, hybrid_property
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
@@ -51,6 +54,29 @@ class Service(Base):
         primaryjoin=lambda: and_(Service.sid==Program.sid, Program.end>=datetime.now()),
         order_by="Program.start")
 
+class UTCToLocalComparator(Comparator):
+
+    def __eq__(self, other):
+        return self.__clause_element__() == local_to_utc(other)
+
+    def __ge__(self, other):
+        return self.__clause_element__() >= local_to_utc(other)
+
+    def __gt__(self, other):
+        return self.__clause_element__() > local_to_utc(other)
+
+    def __le__(self, other):
+        return self.__clause_element__() <= local_to_utc(other)
+
+    def __lt__(self, other):
+        return self.__clause_element__() < local_to_utc(other)
+
+def utc_to_local(dt):
+    return dt.replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal()).replace(tzinfo=None)
+
+def local_to_utc(dt):
+    return dt.replace(tzinfo=tz.tzlocal()).astimezone(tz.tzutc()).replace(tzinfo=None)
+
 class Program(Base):
     """
     Represents an EPG entry.
@@ -63,9 +89,25 @@ class Program(Base):
     name = Column(String(255), nullable=False)
     language = Column(String(20), nullable=False)
     description = Column(Text, nullable=False)
-    start = Column(DateTime, nullable=False, index=True)
-    end = Column(DateTime, nullable=False, index=True)
+    start_utc = Column(DateTime, nullable=False, index=True)
+    end_utc = Column(DateTime, nullable=False, index=True)
     duration = Column(Integer, nullable=False) # In seconds
+
+    @hybrid_property
+    def start(self):
+        return utc_to_local(self.start_utc)
+
+    @start.comparator
+    def start(cls):
+        return UTCToLocalComparator(cls.start_utc)
+
+    @hybrid_property
+    def end(self):
+        return utc_to_local(self.end_utc)
+
+    @end.comparator
+    def end(cls):
+        return UTCToLocalComparator(cls.end_utc)
 
     def is_running(self, when=None):
         """
