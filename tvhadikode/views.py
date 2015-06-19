@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from pyramid.response import Response
 from pyramid.view import view_config
 from pyramid.decorator import reify
@@ -14,7 +16,7 @@ class BaseView:
 
 @view_config(route_name='home', renderer='templates/epg.mak')
 def my_view(request):
-    services = DBSession.query(Service).all()
+    services = DBSession.query(Service).order_by('name').all()
     return {'services': services, 'project': 'tv.hadiko.de'}
 
 class WatchViews(BaseView):

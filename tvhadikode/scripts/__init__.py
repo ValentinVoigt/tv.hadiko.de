@@ -1,1 +1,1 @@
-# package
+# -*- encoding: utf-8 -*-

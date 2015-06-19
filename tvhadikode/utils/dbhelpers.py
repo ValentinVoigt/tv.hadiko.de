@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from pyramid.httpexceptions import HTTPNotFound
 
 def return_or_404(obj, details=""):

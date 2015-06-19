@@ -16,17 +16,26 @@ pyramid.includes =
 
 sqlalchemy.url = sqlite:///%(here)s/tv.hadiko.de.sqlite
 
-[server:main]
-use = egg:waitress#main
-host = 0.0.0.0
-port = 6543
-
 ###
 # Tuner configuration
 ###
 
 tv.mumudvb_urls =
     http://mumudvb_ip:4244/
+
+##
+# Mako settings
+##
+
+mako.output_encoding = utf-8
+mako.input_encoding = utf-8
+mako.imports =
+     from tvhadikode.utils.helpers import smartdate
+
+[server:main]
+use = egg:waitress#main
+host = 0.0.0.0
+port = 6543
 
 ###
 # logging configuration

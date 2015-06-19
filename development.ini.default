@@ -28,6 +28,15 @@ sqlalchemy.url = sqlite:///%(here)s/tv.hadiko.de.sqlite
 tv.mumudvb_urls =
     http://mumudvb_ip:4244/
 
+##
+# Mako settings
+##
+
+mako.output_encoding = utf-8
+mako.input_encoding = utf-8
+mako.imports =
+     from tvhadikode.utils.helpers import smartdate
+
 ###
 # wsgi server configuration
 ###

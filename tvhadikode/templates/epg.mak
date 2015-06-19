@@ -1,3 +1,4 @@
+## -*- coding: utf-8 -*-
 <!DOCTYPE html>
 <html lang="${request.locale_name}">
     <head>
@@ -14,6 +15,12 @@
         <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
         <![endif]-->
+
+        <style media="screen">
+            .table-valign-middle tbody > tr > td {
+                vertical-align: middle;
+            }
+        </style>
     </head>
     <body>
         <div class="container">
@@ -21,25 +28,71 @@
                 <h1>tv.hadiko.de</h1>
             </div>
 
-            % for service in services:
-                <h2>
-                    ${service.name}
-                    <small><a href="${request.route_path('watch.unicast', service=service.slug)}">
-                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                        watch now
-                    </a></small>
-                </h2>
-                <ul>
-                    % for program in service.future_programs[:10]:
-                        <li>
-                            % if program.is_running():
-                                <span class="label label-info">Live</span>
+            <table class="table table-striped table-valign-middle">
+                <thead>
+                    <tr>
+                        <th>Kanal</th>
+                        <th>Programm</th>
+                        <th>Fortschritt</th>
+                        <th>Stream</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    % for service in services:
+                        <tr>
+                            <td>${service.name}</td>
+                            % if len(service.future_programs) > 0:
+                                <% program = service.future_programs[0] %>
+                                <td>
+                                    ${program.name}
+                                    % if len(service.future_programs) > 1:
+                                        <br />
+                                        <small class="text-muted">
+                                            Danach: ${service.future_programs[1].name}
+                                        </small>
+                                    % endif
+                                </td>
+                                <td>
+                                    <div class="progress" style="height:10px; margin:0">
+                                        <div
+                                            class="progress-bar" role="progressbar"
+                                            aria-valuenow="${program.percent_complete}"
+                                            aria-valuemin="0" aria-valuemax="100"
+                                            style="width: ${program.percent_complete}%;">
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">
+                                        bis ${smartdate(program.end)}
+                                    </small>
+                                </td>
+                            % else:
+                                <td colspan="2"><span class="text-muted">?</span></td>
                             % endif
-                            ${program.name} at ${program.start}
-                        </li>
+                            <td>
+                                <a href="${request.route_path('watch.multicast', service=service.slug)}">
+                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                    jetzt schauen
+                                </a>
+                                <small>
+                                    <a href="${request.route_path('watch.unicast', service=service.slug)}">
+                                        (alternativ)
+                                    </a>
+                                </small>
+                            </td>
+                        </tr>
+                        <!-- <ul class="hide">
+                            % for program in service.future_programs[:10]:
+                                <li>
+                                    % if program.is_running():
+                                        <span class="label label-info">Live</span>
+                                    % endif
+                                    ${program.name} at ${program.start}
+                                </li>
+                            % endfor
+                        </ul> -->
                     % endfor
-                </ul>
-            % endfor
+                </tbody>
+            </table>
         </div>
 
         <script src="//oss.maxcdn.com/libs/jquery/1.10.2/jquery.min.js"></script>

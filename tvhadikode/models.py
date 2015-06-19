@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from datetime import datetime
 
 from sqlalchemy import and_, Column, ForeignKey, Integer, Text, String, DateTime
@@ -72,3 +74,23 @@ class Program(Base):
         if when is None:
             when = datetime.now()
         return self.start <= when <= self.end
+
+    @property
+    def percent_complete(self):
+        """
+        Returns an integer between 0-100.
+            0: Program is in past
+            1: Program has just started
+            50: Program is at half time
+            100: Program is over
+        """
+        def dt_to_unix(dt):
+            return int(dt.strftime("%s"))
+        now = datetime.now()
+        passed = dt_to_unix(now) - dt_to_unix(self.start)
+        if passed <= 0:
+            return 0
+        elif passed > self.duration:
+            return 100
+        else:
+            return round(float(passed) / float(self.duration) * 100)
