@@ -1,6 +1,8 @@
 #!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 
+# Based on epgstuff's epg2xml.py
+
 # Import libs/modules
 import os
 import re
