@@ -15,8 +15,7 @@ import subprocess
 
 # Config
 dvbsnoop = 'dvbsnoop'
-# tsudprecv = 'tsudpreceive'
-tsudprecv = '/usr/src/epgstuff/tsudpreceive/a.out'
+tsudprecv = 'tsudpreceive'
 
 def usage():
 	print('Usage: ')
