@@ -25,6 +25,7 @@ sqlalchemy.url = sqlite:///%(here)s/tv.hadiko.de.sqlite
 # Tuner configuration
 ###
 
+tv.timezone = Europe/Berlin
 tv.mumudvb_urls =
     http://mumudvb_ip:4244/
 

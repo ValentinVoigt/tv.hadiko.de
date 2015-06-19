@@ -2,7 +2,6 @@
 
 from datetime import datetime
 import pytz
-from dateutil import tz
 
 from sqlalchemy import and_, Column, ForeignKey, Integer, Text, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
@@ -10,6 +9,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker, relationship, backref
 from sqlalchemy.ext.hybrid import Comparator, hybrid_property
 
 from zope.sqlalchemy import ZopeTransactionExtension
+
+from pyramid.threadlocal import get_current_registry
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 DeclarativeBase = declarative_base()
@@ -72,10 +73,12 @@ class UTCToLocalComparator(Comparator):
         return self.__clause_element__() < local_to_utc(other)
 
 def utc_to_local(dt):
-    return dt.replace(tzinfo=tz.tzutc()).astimezone(tz.tzlocal()).replace(tzinfo=None)
+    localtz = pytz.timezone(get_current_registry().settings.get('tv.timezone', pytz.utc))
+    return pytz.utc.localize(dt).astimezone(localtz).replace(tzinfo=None)
 
 def local_to_utc(dt):
-    return dt.replace(tzinfo=tz.tzlocal()).astimezone(tz.tzutc()).replace(tzinfo=None)
+    localtz = pytz.timezone(get_current_registry().settings.get('tv.timezone', pytz.utc))
+    return localtz.localize(dt).astimezone(pytz.utc).replace(tzinfo=None)
 
 class Program(Base):
     """
