@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+import os.path
+
 from datetime import datetime
 import pytz
 
@@ -11,6 +13,7 @@ from sqlalchemy.ext.hybrid import Comparator, hybrid_property
 from zope.sqlalchemy import ZopeTransactionExtension
 
 from pyramid.threadlocal import get_current_registry
+from pyramid.path import AssetResolver
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 DeclarativeBase = declarative_base()
@@ -54,6 +57,15 @@ class Service(Base):
         "Program",
         primaryjoin=lambda: and_(Service.sid==Program.sid, Program.end>=datetime.now()),
         order_by="Program.start")
+
+    @property
+    def logo_path(self):
+        return "tvhadikode:static/services/%i.png" % self.sid
+
+    @property
+    def has_logo(self):
+        path = AssetResolver().resolve(self.logo_path).abspath()
+        return os.path.isfile(path)
 
 class UTCToLocalComparator(Comparator):
 

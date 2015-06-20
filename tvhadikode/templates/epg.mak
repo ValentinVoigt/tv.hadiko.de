@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="HaDiNet">
-        <link rel="shortcut icon" href="${request.static_url('tvhadikode:static/logo_hadinet_new.png')}">
+        <link rel="shortcut icon" href="${request.static_path('tvhadikode:static/logo_hadinet_new.png')}">
         <title>TV | HaDiKo</title>
         <link href="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 
@@ -31,6 +31,7 @@
             <table class="table table-striped table-valign-middle">
                 <thead>
                     <tr>
+                        <th width="35">&nbsp;</th>
                         <th>Kanal</th>
                         <th>Programm</th>
                         <th>Fortschritt</th>
@@ -40,7 +41,14 @@
                 <tbody>
                     % for service in services:
                         <tr>
-                            <td>${service.name}</td>
+                            <td>
+                                % if service.has_logo:
+                                <img
+                                    src="${request.static_path(service.logo_path)}"
+                                    alt="${service.name} logo" width="35">
+                                % endif
+                            </td>
+                            <td>${service.name}
                             % if len(service.future_programs) > 0:
                                 <% program = service.future_programs[0] %>
                                 <td>
