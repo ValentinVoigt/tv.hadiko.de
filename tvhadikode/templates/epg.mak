@@ -53,12 +53,12 @@
                     <td colspan="2"><span class="text-muted">?</span></td>
                 % endif
                 <td>
-                    <a href="${request.route_path('watch.multicast', service=service.slug)}">
+                    <a href="${request.route_path('channel.watch.multicast', service=service.slug)}">
                         <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                         jetzt schauen
                     </a>
                     <small>
-                        <a href="${request.route_path('watch.unicast', service=service.slug)}">
+                        <a href="${request.route_path('channel.watch.unicast', service=service.slug)}">
                             (alternativ)
                         </a>
                     </small>

@@ -1,23 +1,11 @@
 # -*- encoding: utf-8 -*-
 
-from pyramid.response import Response
-from pyramid.view import view_config
 from pyramid.decorator import reify
+from pyramid.view import view_config
 
-from sqlalchemy.exc import DBAPIError
-
-from .utils.dbhelpers import get_by_or_404
-from .models import DBSession, Service
-
-class BaseView:
-
-    def __init__(self, request):
-        self.request = request
-
-@view_config(route_name='home', renderer='templates/epg.mak')
-def my_view(request):
-    services = DBSession.query(Service).order_by('name').all()
-    return {'services': services, 'project': 'tv.hadiko.de'}
+from .base import BaseView
+from tvhadikode.utils.dbhelpers import get_by_or_404
+from tvhadikode.models import Service
 
 class WatchViews(BaseView):
 
@@ -25,11 +13,11 @@ class WatchViews(BaseView):
     def service(self):
         return get_by_or_404(Service, slug=self.request.matchdict.get('service'))
 
-    @view_config(route_name='watch.unicast')
+    @view_config(route_name='channel.watch.unicast')
     def watch_unicast(self):
         return self.return_m3u(self.service.slug, self.service.unicast_url)
 
-    @view_config(route_name='watch.multicast')
+    @view_config(route_name='channel.watch.multicast')
     def watch_multicast(self):
         return self.return_m3u(self.service.slug, "udp://@" + self.service.multicast_ip)
 

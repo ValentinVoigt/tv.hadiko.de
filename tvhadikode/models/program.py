@@ -6,74 +6,12 @@ from datetime import datetime
 import pytz
 
 from sqlalchemy import and_, Column, ForeignKey, Integer, Text, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker, relationship, backref
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.hybrid import Comparator, hybrid_property
 
-from zope.sqlalchemy import ZopeTransactionExtension
-
 from pyramid.threadlocal import get_current_registry
-from pyramid.path import AssetResolver
 
-DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
-DeclarativeBase = declarative_base()
-
-class Base(DeclarativeBase):
-    """ Base model for all models.
-    """
-    __abstract__ = True
-
-    @classmethod
-    def get(cls, *args):
-        """ Returns object by primary ID.
-        Returns None if object is not found.
-        """
-        primary_keys = [i.key for i in inspect(cls).primary_key]
-        filter_ = dict(zip(primary_keys, args))
-        return DBSession.query(cls).filter_by(**filter_).first()
-
-    @classmethod
-    def get_by(cls, **kwargs):
-        """ Returns the first object by given filter.
-        Returns None if object is not found.
-        """
-        return DBSession.query(cls).filter_by(**kwargs).first()
-
-class Service(Base):
-    """
-    Represents a DVB service. (i.e. a TV channel)
-    """
-    __tablename__ = 'services'
-    id = Column(Integer, primary_key=True)
-    sid = Column(Integer, nullable=False, unique=True) # Service ID
-    name = Column(String(255), nullable=False)
-    slug = Column(String(255), nullable=False)
-    multicast_ip = Column(String(255), nullable=False)
-    unicast_url = Column(String(255), nullable=False)
-
-    programs = relationship("Program", backref="service", order_by="Program.start")
-
-    future_programs = relationship(
-        "Program",
-        primaryjoin=lambda: and_(Service.sid==Program.sid, Program.end>=datetime.now()),
-        order_by="Program.start")
-
-    @property
-    def current_program(self):
-        if len(self.future_programs) == 0:
-            return None
-        if not self.future_programs[0].is_running():
-            return None
-        return self.future_programs[0]
-
-    @property
-    def logo_path(self):
-        return "tvhadikode:static/services/%i.png" % self.sid
-
-    @property
-    def has_logo(self):
-        path = AssetResolver().resolve(self.logo_path).abspath()
-        return os.path.isfile(path)
+from . import Base
 
 class UTCToLocalComparator(Comparator):
 
