@@ -25,7 +25,7 @@ class WatchViews(BaseView):
     def return_m3u(self, name, url):
         body = "#EXTM3U\n#EXTINF:0,%s\n%s" % (self.service.name, url)
         return Response(
-            bytes(body),
+            bytes(body, "utf-8"),
             content_type="audio/mpegurl",
             content_length=len(body),
             content_disposition='attachment; filename="%s.m3u"' % name,
