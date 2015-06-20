@@ -14,11 +14,11 @@ class WatchViews(BaseView):
     def service(self):
         return get_by_or_404(Service, slug=self.request.matchdict.get('service'))
 
-    @view_config(route_name='channel.watch.unicast')
+    @view_config(route_name='service.watch.unicast')
     def watch_unicast(self):
         return self.return_m3u(self.service.slug, self.service.unicast_url)
 
-    @view_config(route_name='channel.watch.multicast')
+    @view_config(route_name='service.watch.multicast')
     def watch_multicast(self):
         return self.return_m3u(self.service.slug, "udp://@" + self.service.multicast_ip)
 

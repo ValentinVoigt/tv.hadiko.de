@@ -25,7 +25,9 @@
                         alt="${service.name} logo" width="35">
                     % endif
                 </td>
-                <td>${service.name}</td>
+                <td>
+                    <a href="${request.route_path("service", service=service.slug)}">${service.name}</a>
+                </td>
                 % if service.current_program:
                     <td>
                         ${service.current_program.name}
@@ -53,15 +55,7 @@
                     <td colspan="2"><span class="text-muted">?</span></td>
                 % endif
                 <td>
-                    <a href="${request.route_path('channel.watch.multicast', service=service.slug)}">
-                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                        jetzt schauen
-                    </a>
-                    <small>
-                        <a href="${request.route_path('channel.watch.unicast', service=service.slug)}">
-                            (alternativ)
-                        </a>
-                    </small>
+                    ${watch_service(service)}
                 </td>
             </tr>
         % endfor

@@ -67,6 +67,7 @@ class Program(Base):
     def end(cls):
         return UTCToLocalComparator(cls.end_utc)
 
+    @property
     def is_running(self, when=None):
         """
         Returns True when this program is currently running.
@@ -74,6 +75,25 @@ class Program(Base):
         if when is None:
             when = datetime.now()
         return self.start <= when <= self.end
+
+    @property
+    def remaining(self):
+        """
+        Returns the remaining number of seconds the program will be running.
+        Only valid when is_running=True.
+        """
+        assert self.is_running
+        return (self.end - datetime.now()).total_seconds()
+
+    @property
+    def time_until(self):
+        """
+        Returns the time in seconds until the program starts.
+        Returns 0 if program.start is in past.
+        """
+        if self.start <= datetime.now():
+            return 0
+        return (self.start - datetime.now()).total_seconds()
 
     @property
     def percent_complete(self):

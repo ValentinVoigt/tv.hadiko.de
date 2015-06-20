@@ -30,3 +30,16 @@ def smartdate(dt):
             return dt.strftime('übermorgen, %H:%M')
         else:
             return dt.strftime('%d.%m.%Y, %H:%M')
+
+def short_duration(duration):
+    """
+    Returns a human-readable representation of the given duration (in seconds).
+    Duration does not have to be exact.
+    """
+    if duration < 60:
+        return "%is" % duration
+    elif duration < 60*60:
+        return "%im" % (duration // 60)
+    elif duration < 60*60*24:
+        return "%ih %im" % divmod(duration // 60, 60)
+    return "%id %ih" % divmod(duration // (60*60), 24)

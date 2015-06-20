@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 
 from pyramid.path import AssetResolver
 
-from tvhadikode.models import Base, Program
+from tvhadikode.models import Base, DBSession, Program
 
 class Service(Base):
     """
@@ -25,16 +25,24 @@ class Service(Base):
 
     programs = relationship("Program", backref="service", order_by="Program.start")
 
-    future_programs = relationship(
-        "Program",
-        primaryjoin=lambda: and_(Service.sid==Program.sid, Program.end>=datetime.now()),
-        order_by="Program.start")
+    __future_programs__cache__ = None
+    __future_programs__time__ = ""
+
+    @property
+    def future_programs(self):
+        now = datetime.now().strftime("%H%M")
+        if now != self.__future_programs__time__:
+            self.__future_programs__cache__ = DBSession.query(Program).filter(
+                and_(Program.sid == self.sid, Program.end >= datetime.now())
+            ).order_by(Program.start).all()
+            self.__future_programs__time__ = now
+        return self.__future_programs__cache__
 
     @property
     def current_program(self):
         if len(self.future_programs) == 0:
             return None
-        if not self.future_programs[0].is_running():
+        if not self.future_programs[0].is_running:
             return None
         return self.future_programs[0]
 

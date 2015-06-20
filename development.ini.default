@@ -36,7 +36,7 @@ tv.mumudvb_urls =
 mako.output_encoding = utf-8
 mako.input_encoding = utf-8
 mako.imports =
-     from tvhadikode.utils.helpers import smartdate
+     from tvhadikode.utils.helpers import smartdate, short_duration
 
 ###
 # wsgi server configuration

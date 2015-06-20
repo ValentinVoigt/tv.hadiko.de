@@ -13,3 +13,15 @@
         <span class="text-muted">&raquo;</span> ${i}
     % endfor
 </%def>
+
+<%def name="watch_service(service)">
+    <a href="${request.route_path('service.watch.multicast', service=service.slug)}">
+        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        jetzt schauen
+    </a>
+    <small>
+        <a href="${request.route_path('service.watch.unicast', service=service.slug)}">
+            (alternativ)
+        </a>
+    </small>
+</%def>
