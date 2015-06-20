@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+import locale
+
 from pyramid.config import Configurator
 from sqlalchemy import engine_from_config
 
@@ -17,8 +19,11 @@ def main(global_config, **settings):
     Base.metadata.bind = engine
     config = Configurator(settings=settings)
 
+    assert 'tv.locale' in settings
     assert 'tv.timezone' in settings
     assert 'tv.mumudvb_urls' in settings
+
+    locale.setlocale(locale.LC_ALL, settings.get('tv.locale'))
 
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)

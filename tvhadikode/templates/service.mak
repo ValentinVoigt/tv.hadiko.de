@@ -5,6 +5,8 @@
 <%block name="title">${make_title([service.name])}</%block>
 <%block name="headline">${make_headline([service.name])}</%block>
 
+<% from tvhadikode.utils.group_programs import group_programs %>
+
 <%def name="show_program(title, program, panelclass='default')">
     <div class="panel panel-${panelclass}">
         <div class="panel-heading">
@@ -69,13 +71,13 @@
             </div>
         </div>
 
+        % for day, programs in group_programs(service.future_programs[2:]):
         <div class="panel panel-default">
             <div class="panel-heading">
-                Aussicht
+                ${day.strftime("%A, %x")}
             </div>
-
             <table class="table table-hover" style="table-layout:auto; width:100%;">
-                % for program in service.future_programs[2:]:
+                % for program in programs:
                     <tr>
                         <td>
                             ${smartdate(program.start)}
@@ -91,5 +93,6 @@
                 % endfor
             </table>
         </div>
+        % endfor
     </div>
 </div>
