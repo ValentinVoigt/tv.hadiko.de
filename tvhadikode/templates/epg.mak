@@ -49,10 +49,9 @@
                                 % endif
                             </td>
                             <td>${service.name}
-                            % if len(service.future_programs) > 0:
-                                <% program = service.future_programs[0] %>
+                            % if service.current_program:
                                 <td>
-                                    ${program.name}
+                                    ${service.current_program.name}
                                     % if len(service.future_programs) > 1:
                                         <br />
                                         <small class="text-muted">
@@ -64,13 +63,13 @@
                                     <div class="progress" style="height:10px; margin:0">
                                         <div
                                             class="progress-bar" role="progressbar"
-                                            aria-valuenow="${program.percent_complete}"
+                                            aria-valuenow="${service.current_program.percent_complete}"
                                             aria-valuemin="0" aria-valuemax="100"
-                                            style="width: ${program.percent_complete}%;">
+                                            style="width: ${service.current_program.percent_complete}%;">
                                         </div>
                                     </div>
                                     <small class="text-muted">
-                                        bis ${smartdate(program.end)}
+                                        bis ${smartdate(service.current_program.end)}
                                     </small>
                                 </td>
                             % else:

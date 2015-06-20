@@ -59,6 +59,14 @@ class Service(Base):
         order_by="Program.start")
 
     @property
+    def current_program(self):
+        if len(self.future_programs) == 0:
+            return None
+        if not self.future_programs[0].is_running():
+            return None
+        return self.future_programs[0]
+
+    @property
     def logo_path(self):
         return "tvhadikode:static/services/%i.png" % self.sid
 
