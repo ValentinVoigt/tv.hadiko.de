@@ -1,52 +1,100 @@
 # -*- encoding: utf-8 -*-
 
 import os
+import re
 import sys
 import json
 import transaction
+import urllib.request
 
-from dateutil.parser import parse
+from datetime import datetime, timedelta
 
 from pyramid.paster import bootstrap
 
 from ..models import DBSession, Program, Service
 
+from .import_services import extract_urls
+
 def usage():
     cmd = os.path.basename(sys.argv[0])
-    print('usage: %s <config_uri> <epg.json>\n'
-          '(example: "%s development.ini ../epg.json")' % (cmd, cmd))
+    print('usage: %s <config_uri>\n'
+          '(example: "%s development.ini")' % (cmd, cmd))
     sys.exit(1)
 
-def import_epg(epg):
-    print("Importing EPG data...")
-    n_programs = 0
-    n_services = 0
-    n_services_total = 0
-    for sid, epg_service in epg.items():
+def parse_eit_datetime(date, time):
+    year, month, day = [int(i) for i in date[:10].split('-')]
+    hour, minute, second = [int(i) for i in time.split(':')]
+    return datetime(year, month, day, hour, minute, second)
+
+def parse_eit_duration(duration):
+    hours, minutes, seconds = [int(i) for i in duration.split(':')]
+    return hours * 3600 + minutes * 60 + seconds
+
+def import_epg(url):
+    print("Downloading %s..." % url)
+    eit = str(urllib.request.urlopen("%s/monitor/EIT.json" % url).read(), "utf-8", 'replace')
+    print("JSON parsing...")
+    eit = re.sub(r'"language" : ".*".*",$', r'"language" : "",', eit, flags=re.M)
+    eit = re.sub(r'("descr" : "[^"]+")(\s*")', r"\1,\2", eit, flags=re.M)
+    eit = re.sub(r'("rating" : "[^"]+")(\s*")', r"\1,\2", eit, flags=re.M)
+    eit = re.sub(r'",(\s*)}', r'"\1}', eit, flags=re.M)
+    eit = json.loads(eit, strict=False)
+
+    events = {}
+
+    print("Interpreting...")
+    for table in eit['EIT_tables']:
+        sid = table['sid']
+        table_id = table['table_id']
+        if not (0x50 <= table_id <= 0x5F or table_id == 0x4E):
+            continue
+        if not sid in events.keys():
+            events[sid] = {}
+        for section in table['EIT_sections']:
+            for event in section['EIT_events']:
+                event_id = event['event_id']
+                if not event_id in events[sid].keys():
+                    events[sid][event_id] = {
+                        'start': parse_eit_datetime(event['start_time day '], event['start_time']),
+                        'duration': parse_eit_duration(event['duration']),
+                    }
+                for descriptor in event['EIT_descriptors']:
+                    if 'short_evt' in descriptor.keys():
+                        events[sid][event_id]['name'] = descriptor['short_evt']['name']
+                        if descriptor['short_evt']['text'] != "":
+                            events[sid][event_id]['caption'] = descriptor['short_evt']['text']
+                    if 'ext_evt' in descriptor.keys():
+                        events[sid][event_id]['descr'] = descriptor['ext_evt']['text']
+
+    print("Importing...")
+    n = 0
+    for sid, events in events.items():
         service = Service.get_by(sid=sid)
-        n_services_total += 1
         if service is not None:
-            n_services += 1
-            for program in epg_service:
+            for event in events.values():
+                n += 1
                 DBSession.add(Program(
                     service=service,
-                    tid=program['tid'],
-                    language=program['language'],
-                    start_utc=parse(program['start']),
-                    end_utc=parse(program['end']),
-                    duration=program['duration'],
-                    name=program['name'],
-                    description=program['description'],
+                    start_utc=event['start'],
+                    end_utc=event['start'] + timedelta(seconds=event['duration']),
+                    duration=event['duration'],
+                    name=event['name'],
+                    description=event.get('descr'),
+                    caption=event.get('caption'),
                 ))
-                n_programs += 1
-    print("Imported %i programs in %i channels (%i skipped)!" % (n_programs, n_services, n_services_total-n_services))
+    print("Imported %i programs!\n" % n)
 
 def main():
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 2:
         usage()
 
-    bootstrap(sys.argv[1])
+    data = bootstrap(sys.argv[1])
+    urls = extract_urls(data['registry'].settings)
 
     transaction.begin()
-    import_epg(json.loads(open(sys.argv[2], 'r').read()))
+    print("Deleting all programs...")
+    DBSession.query(Program).delete()
+    print()
+    for url in urls:
+        import_epg(url)
     transaction.commit()

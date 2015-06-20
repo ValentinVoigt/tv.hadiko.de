@@ -43,13 +43,12 @@ class Program(Base):
 
     id = Column(Integer, primary_key=True)
     sid = Column(Integer, ForeignKey('services.sid'), nullable=False) # Service ID
-    tid = Column(Integer, nullable=False) # Transportstream ID
     name = Column(String(255), nullable=False)
-    language = Column(String(20), nullable=False)
-    description = Column(Text, nullable=False)
+    caption = Column(String(255))
+    description = Column(Text)
     start_utc = Column(DateTime, nullable=False, index=True)
     end_utc = Column(DateTime, nullable=False, index=True)
-    duration = Column(Integer, nullable=False) # In seconds
+    duration = Column(Integer, nullable=False) # in seconds
 
     @hybrid_property
     def start(self):
