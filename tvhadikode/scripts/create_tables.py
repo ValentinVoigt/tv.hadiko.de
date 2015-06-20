@@ -5,7 +5,7 @@ import sys
 
 from pyramid.paster import bootstrap
 
-from ..models import DBSession, Base
+from ..models import Base
 
 def usage():
     cmd = os.path.basename(sys.argv[0])

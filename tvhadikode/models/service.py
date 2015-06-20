@@ -4,14 +4,12 @@ import os
 
 from datetime import datetime
 
-from sqlalchemy import and_, Column, ForeignKey, Integer, Text, String, DateTime
-from sqlalchemy.orm import relationship, backref
-from sqlalchemy.ext.hybrid import Comparator, hybrid_property
+from sqlalchemy import and_, Column, Integer, String
+from sqlalchemy.orm import relationship
 
-from pyramid.threadlocal import get_current_registry
 from pyramid.path import AssetResolver
 
-from . import Base, Program
+from tvhadikode.models import Base, Program
 
 class Service(Base):
     """

@@ -9,7 +9,7 @@ import transaction
 from pyramid.paster import bootstrap
 from slugify import slugify
 
-from ..models import DBSession, Base, Service
+from ..models import DBSession, Service
 
 def usage():
     cmd = os.path.basename(sys.argv[0])

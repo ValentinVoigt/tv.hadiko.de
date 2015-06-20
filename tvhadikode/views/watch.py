@@ -2,8 +2,9 @@
 
 from pyramid.decorator import reify
 from pyramid.view import view_config
+from pyramid.response import Response
 
-from .base import BaseView
+from tvhadikode.views.base import BaseView
 from tvhadikode.utils.dbhelpers import get_by_or_404
 from tvhadikode.models import Service
 

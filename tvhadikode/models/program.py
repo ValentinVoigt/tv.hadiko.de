@@ -1,17 +1,14 @@
 # -*- encoding: utf-8 -*-
 
-import os.path
-
 from datetime import datetime
 import pytz
 
-from sqlalchemy import and_, Column, ForeignKey, Integer, Text, String, DateTime
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy import Column, ForeignKey, Integer, Text, String, DateTime
 from sqlalchemy.ext.hybrid import Comparator, hybrid_property
 
 from pyramid.threadlocal import get_current_registry
 
-from . import Base
+from tvhadikode.models import Base
 
 class UTCToLocalComparator(Comparator):
 
