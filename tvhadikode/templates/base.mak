@@ -11,12 +11,13 @@
         <meta name="author" content="HaDiNet">
         <link rel="shortcut icon" href="${request.static_path('tvhadikode:static/logo_hadinet_new.png')}">
         <title><%block name="title">${make_title()}</%block></title>
-        <link href="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+        <link href="${request.static_path('tvhadikode:static/css/bootstrap.min.css')}" rel="stylesheet">
+        <link href="${request.static_path('tvhadikode:static/css/lumen-theme.min.css')}" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
-        <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <script src="${request.static_path('tvhadikode:static/js/html5shiv.js')}"></script>
+        <script src="${request.static_path('tvhadikode:static/js/respond.min.js')}"></script>
         <![endif]-->
 
         <style media="screen">
@@ -36,7 +37,7 @@
             ${self.body()}
         </div>
 
-        <script src="//oss.maxcdn.com/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <script src="${request.static_path('tvhadikode:static/js/jquery.min.js')}"></script>
+        <script src="${request.static_path('tvhadikode:static/js/bootstrap.min.js')}"></script>
     </body>
 </html>
