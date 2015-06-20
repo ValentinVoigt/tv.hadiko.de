@@ -10,7 +10,7 @@ def smartdate(dt):
     now = datetime.now()
     if dt.date() < now.date():
         if (now.date() - dt.date()).days == 1:
-            if (now - dt).seconds < 60*60*8: # near-past events
+            if (now - dt).total_seconds() < 60*60*8: # near-past events
                 return dt.strftime('%H:%M')
             else:
                 return dt.strftime('gestern, %H:%M')
@@ -22,7 +22,7 @@ def smartdate(dt):
         return dt.strftime('%H:%M')
     else:
         if (dt.date() - now.date()).days == 1:
-            if (dt - now).seconds < 60*60*8: # near-future events
+            if (dt - now).total_seconds() < 60*60*8: # near-future events
                 return dt.strftime('%H:%M')
             else:
                 return dt.strftime('morgen, %H:%M')
