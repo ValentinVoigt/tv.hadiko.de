@@ -25,7 +25,7 @@ def main(global_config, **settings):
 
     locale.setlocale(locale.LC_ALL, settings.get('tv.locale'))
 
-    config.include('pyramid_chameleon')
+    config.include('pyramid_mako')
     config.add_static_view('static', 'static', cache_max_age=3600)
 
     config.add_route('home', '/')
