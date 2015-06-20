@@ -2,17 +2,16 @@
 
 ## Webserver setup
 
-* cd <directory containing this file>
+* cd directory containing this file
 * $VENV/bin/python setup.py develop
 * cp development.ini.default development.ini
 * adjust development.ini to your needs (see TV-settings)
 
 ## Import EPG data
 
-* Create JSON file with ./utils/epg2json.py
 * tv_create_tables development.ini
-* tv_import_services
-* <my-json-file>
+* tv_import_services development.ini
+* tv_import_epg development.ini
 
 ## Run webserver
 
