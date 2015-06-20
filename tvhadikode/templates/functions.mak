@@ -8,7 +8,13 @@
 </%def>
 
 <%def name="make_headline(array=[])">
+    % if len(array) > 0:
+        <a href="${request.route_path('home')}">
+    % endif
     TV <span class="text-muted">|</span> HaDiKo
+    % if len(array) > 0:
+        </a>
+    % endif
     % for i in array:
         <span class="text-muted">&raquo;</span> ${i}
     % endfor
