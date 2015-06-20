@@ -1,17 +1,18 @@
 ## -*- coding: utf-8 -*-
 
 <%def name="make_title(array=[])">
-    TV | HaDiKo
+    HaDiTV
     % for i in array:
         &raquo; ${i}
     % endfor
 </%def>
 
 <%def name="make_headline(array=[])">
+    <span style="font-size:1.2em;">&raquo;</span>
     % if len(array) > 0:
         <a href="${request.route_path('home')}">
     % endif
-    TV <span class="text-muted">|</span> HaDiKo
+    <span style="font-weight:lighter;">HaDi</span><span style="font-size:1.2em;">TV</span>
     % if len(array) > 0:
         </a>
     % endif
@@ -20,11 +21,14 @@
     % endfor
 </%def>
 
-<%def name="watch_service(service)">
+<%def name="watch_service(service, glyphicon=True)">
     <a href="${request.route_path('service.watch.multicast', service=service.slug)}">
-        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        % if glyphicon:
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        % endif
         jetzt schauen
     </a>
+    &nbsp;
     <small>
         <a href="${request.route_path('service.watch.unicast', service=service.slug)}">
             (alternativ)

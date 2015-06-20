@@ -76,10 +76,11 @@
             <div class="panel-heading">
                 ${day.strftime("%A, %x")}
             </div>
-            <table class="table table-hover" style="table-layout:auto; width:100%;">
+            <table class="table table-hover" style="table-layout:fixed;">
+
                 % for program in programs:
                     <tr>
-                        <td>
+                        <td style="width:140px;">
                             ${smartdate(program.start)}
                             ## ${short_duration(program.duration)}
                             % if program.time_until < 60*60*8:

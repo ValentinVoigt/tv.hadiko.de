@@ -9,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="author" content="HaDiNet">
-        <link rel="shortcut icon" href="${request.static_path('tvhadikode:static/logo_hadinet_new.png')}">
+        <link rel="shortcut icon" href="${request.static_path('tvhadikode:static/img/logo_hadinet_small.png')}">
         <title><%block name="title">${make_title()}</%block></title>
         <link href="${request.static_path('tvhadikode:static/css/bootstrap.min.css')}" rel="stylesheet">
         <link href="${request.static_path('tvhadikode:static/css/lumen-theme.min.css')}" rel="stylesheet">
@@ -21,22 +21,76 @@
         <![endif]-->
 
         <style media="screen">
+            /* Fix for small devices */
+            @media (max-width:768px) {
+                .container {
+                    padding:0 1px;
+                }
+            }
+
+            /* Allowed vertical centration in tables */
             .table-valign-middle tbody > tr > td {
                 vertical-align: middle;
+            }
+
+            /* Sticky footer */
+            html {
+                position: relative;
+                min-height: 100%;
+            }
+            body {
+                margin-bottom: 60px;
+            }
+            .footer {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+            .footer div.container {
+                height: 60px;
+                background-color: #f5f5f5;
+            }
+            .footer p {
+                margin-top: 20px;
+            }
+            .footer img {
+                height: 50px;
+                margin-top: 5px;
             }
         </style>
     </head>
     <body>
         <div class="container">
-            <div class="page-header">
-                <h1>
-                    <%block name="headline">${make_headline()}</%block>
-                </h1>
-            </div>
+            <h1 class="page-header">
+                <%block name="headline">${make_headline()}</%block>
+                <img src="${request.static_path('tvhadikode:static/img/logo_hadinet_light.png')}"
+                    alt="HaDiNet Logo" class="pull-right" />
+            </h1>
 
             ${self.body()}
         </div>
 
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <p>
+                            <a href="mailto:support@hadinet.de">support@hadinet.de</a>
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+                        <p class="text-muted text-center">
+                            &copy; 2015, HaDiNet
+                        </p>
+                    </div>
+                    <div class="col-xs-4">
+                        <img src="${request.static_path('tvhadikode:static/img/logo_hadinet_light.png')}"
+                                alt="HaDiNet Logo" class="pull-right" />
+                    </div>
+
+                </div>
+            </div>
+        </footer>
         <script src="${request.static_path('tvhadikode:static/js/jquery.min.js')}"></script>
         <script src="${request.static_path('tvhadikode:static/js/bootstrap.min.js')}"></script>
     </body>
