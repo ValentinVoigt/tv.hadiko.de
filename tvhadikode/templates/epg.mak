@@ -25,7 +25,7 @@
                         alt="${service.name} logo" width="35">
                     % endif
                 </td>
-                <td>${service.name}
+                <td>${service.name}</td>
                 % if service.current_program:
                     <td>
                         ${service.current_program.name}
