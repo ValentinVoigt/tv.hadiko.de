@@ -3,7 +3,7 @@
 import os
 import sys
 import json
-import urllib2
+import urllib.request
 import transaction
 
 from pyramid.paster import bootstrap
@@ -27,7 +27,7 @@ def extract_urls(settings):
 
 def import_services(urls):
     for url in urls:
-        data = json.loads(urllib2.urlopen("%s/monitor/state.json" % url).read())
+        data = json.loads(urllib.request.urlopen("%s/monitor/state.json" % url).read())
         for channel in data['channels']:
             DBSession.add(Service(
                 sid=channel['service_id'],
