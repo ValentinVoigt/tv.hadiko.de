@@ -75,7 +75,7 @@
                 <div class="row">
                     <div class="col-xs-4">
                         <p>
-                            <a href="mailto:support@hadinet.de">support@hadinet.de</a>
+                            <a href="mailto:support@hadiko.de">support@hadiko.de</a>
                         </p>
                     </div>
                     <div class="col-xs-4">
