@@ -55,5 +55,8 @@
         </footer>
         <script src="${request.static_path('tvhadikode:static/js/jquery.min.js')}"></script>
         <script src="${request.static_path('tvhadikode:static/js/bootstrap.min.js')}"></script>
+        <script type="text/javascript">
+            <%block name="javascript"/>
+        </script>
     </body>
 </html>

@@ -20,3 +20,21 @@ class HomeViews(BaseView):
         services = services.filter(next_.id==current.next_program_id)
         services = services.order_by(Service.name).all()
         return {'services': services}
+
+    @view_config(route_name='ajax.service.epgrow', renderer='tvhadikode:templates/ajax/epgrow.mak')
+    def epgrow(self):
+        from time import sleep
+        sleep(1)
+        now = datetime.now()
+        current = aliased(Program)
+        next_ = aliased(Program)
+        service = DBSession.query(Service, current, next_)
+        service = service.filter(Service.slug==self.request.matchdict.get('service'))
+        service = service.filter(current.sid==Service.sid, current.start<=now, current.end>=now)
+        service = service.filter(next_.id==current.next_program_id)
+        service, current_program, next_program = service.order_by(Service.name).one()
+        return {
+            'service': service,
+            'current_program': current_program,
+            'next_program': next_program,
+        }

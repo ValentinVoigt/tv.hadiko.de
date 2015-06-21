@@ -26,7 +26,7 @@ class Service(Base):
     id = Column(Integer, primary_key=True)
     sid = Column(Integer, nullable=False, unique=True) # Service ID
     name = Column(String(255), index=True, nullable=False)
-    slug = Column(String(255), nullable=False)
+    slug = Column(String(255), unique=True, nullable=False)
     multicast_ip = Column(String(255), nullable=False)
     unicast_url = Column(String(255), nullable=False)
 
