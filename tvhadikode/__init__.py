@@ -29,11 +29,14 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
 
     config.add_route('home', '/')
+    config.add_route('status', '/status')
     config.add_route('service', '/services/{service}')
     config.add_route('service.watch.multicast', '/services/{service}/multicast.m3u')
     config.add_route('service.watch.unicast', '/services/{service}/unicast.m3u')
 
     config.add_route('ajax.service.epgrow', '/ajax/services/{service}/epgrow')
+    config.add_route('ajax.status.traffic', '/ajax/status/traffic')
+    config.add_route('ajax.status.signal_clients', '/ajax/status/signal_clients')
 
     config.scan()
     return config.make_wsgi_app()

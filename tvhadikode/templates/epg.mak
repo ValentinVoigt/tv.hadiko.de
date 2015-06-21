@@ -28,7 +28,7 @@
 
     function display_loader(row, dfd) {
         $(row).css("height", $(row).height() + "px");
-        var loader = $('<td><img style="margin-top:15px;" alt="Ajax loader"></td>');
+        var loader = $('<td><img style="margin-top:15px;" alt="Loading..."></td>');
         loader.find('img').attr('src', $('#epg').data('loader-src'));
 
         $(row).find("td:eq(2), td:eq(3)").fadeOut(function() {
