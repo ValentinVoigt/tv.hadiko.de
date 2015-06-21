@@ -28,11 +28,6 @@
                 }
             }
 
-            /* Allowed vertical centration in tables */
-            .table-valign-middle tbody > tr > td {
-                vertical-align: middle;
-            }
-
             /* Sticky footer */
             html {
                 position: relative;

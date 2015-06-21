@@ -16,6 +16,9 @@
         </div>
         <div class="panel-body">
             <h4>${program.name}</h4>
+            % if program.caption:
+                <p><span class="text-muted">${program.caption}</span></p>
+            % endif
             % if program.description:
             <p>
                 ${program.description}
@@ -76,8 +79,7 @@
             <div class="panel-heading">
                 ${day.strftime("%A, %x")}
             </div>
-            <table class="table table-hover" style="table-layout:fixed;">
-
+            <table class="table table-hover" style="table-layout:fixed;" id="programs-${day.strftime('%Y%m%d')}">
                 % for program in programs:
                     <tr>
                         <td style="width:140px;">
@@ -89,7 +91,28 @@
                                 </small>
                             % endif
                         </td>
-                        <td>${program.name}</td>
+                        <td>
+                            <a href="#program-${program.id}" data-parent="#programs-${day.strftime('%Y%m%d')}" data-toggle="collapse">
+                                ${program.name}
+                            </a>
+                            <div class="collapse" id="program-${program.id}">
+                                % if program.caption:
+                                    <p><span class="text-muted">${program.caption}</span></p>
+                                % endif
+                                % if program.description:
+                                <p>
+                                    ${program.description}
+                                </p>
+                                % endif
+                                <p>
+                                    <span class="text-muted">
+                                        von ${smartdate(program.start)}
+                                        bis ${smartdate(program.end)}
+                                        (${short_duration(program.duration)})
+                                    </span>
+                                </p>
+                            </div>
+                        </td>
                     </tr>
                 % endfor
             </table>
