@@ -34,14 +34,14 @@
                 % if service.current_program:
                     <td>
                         ${service.current_program.name}
-                        % if len(service.future_programs) > 1:
+                        % if service.next_program:
                             <br />
                             <small class="text-muted">
                                 <span class="visible-xs-inline">
                                     noch ${short_duration(service.current_program.remaining)}
                                     bis ${smartdate(service.current_program.end)},
                                 </span>
-                                danach: ${service.future_programs[1].name}
+                                danach: ${service.next_program.name}
                             </small>
                         % endif
                     </td>

@@ -68,12 +68,15 @@ def import_epg(url):
 
     print("Importing...")
     n = 0
-    for sid, events in events.items():
+    for sid, eventsdict in events.items():
         service = Service.get_by(sid=sid)
         if service is not None:
-            for event in events.values():
+            events = [i for i in eventsdict.values()]
+            events.sort(key=lambda i: i['start'])
+            prev = None
+            for event in events:
                 n += 1
-                DBSession.add(Program(
+                program = Program(
                     service=service,
                     start_utc=event['start'],
                     end_utc=event['start'] + timedelta(seconds=event['duration']),
@@ -81,7 +84,14 @@ def import_epg(url):
                     name=event['name'],
                     description=event.get('descr'),
                     caption=event.get('caption'),
-                ))
+                )
+                if prev:
+                    if (program.start - prev.end).total_seconds() == 0:
+                        prev.next = program
+                    else:
+                        print("Warning: there's gap of %s in EIT" % (program.start - prev.end))
+                DBSession.add(program)
+                prev = program
     print("Imported %i programs!\n" % n)
 
 def main():

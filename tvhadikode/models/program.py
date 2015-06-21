@@ -5,6 +5,7 @@ import pytz
 
 from sqlalchemy import Column, ForeignKey, Integer, Text, String, DateTime
 from sqlalchemy.ext.hybrid import Comparator, hybrid_property
+from sqlalchemy.orm import relationship
 
 from pyramid.threadlocal import get_current_registry
 
@@ -40,6 +41,7 @@ class Program(Base):
     Represents an EPG entry.
     """
     __tablename__ = 'programs'
+    __table_args__ = {'mysql_charset': 'utf8', 'mysql_engine': 'InnoDB'}
 
     id = Column(Integer, primary_key=True)
     sid = Column(Integer, ForeignKey('services.sid'), nullable=False) # Service ID
@@ -49,6 +51,9 @@ class Program(Base):
     start_utc = Column(DateTime, nullable=False, index=True)
     end_utc = Column(DateTime, nullable=False, index=True)
     duration = Column(Integer, nullable=False) # in seconds
+
+    next_program_id = Column(Integer, ForeignKey('programs.id'))
+    next = relationship("Program", uselist=False, lazy='joined')
 
     @hybrid_property
     def start(self):
@@ -81,7 +86,6 @@ class Program(Base):
         Returns the remaining number of seconds the program will be running.
         Only valid when is_running=True.
         """
-        assert self.is_running
         return (self.end - datetime.now()).total_seconds()
 
     @property

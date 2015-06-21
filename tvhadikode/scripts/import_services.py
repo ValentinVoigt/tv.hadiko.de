@@ -27,7 +27,7 @@ def extract_urls(settings):
 
 def import_services(urls):
     for url in urls:
-        data = json.loads(urllib.request.urlopen("%s/monitor/state.json" % url).read())
+        data = json.loads(str(urllib.request.urlopen("%s/monitor/state.json" % url).read(), "utf-8"))
         for channel in data['channels']:
             DBSession.add(Service(
                 sid=channel['service_id'],
