@@ -41,12 +41,13 @@
 
 <div class="row">
     <div class="col-sm-3">
-        <span class="thumbnail hidden-xs">
-            <img src="${request.static_path(service.logo_path)}" alt="${service.name} logo">
-        </span>
-
         <div class="panel panel-default">
             <div class="panel-body">
+                <span class="thumbnail hidden-xs">
+                    <img src="${request.static_path(service.logo_path)}" alt="${service.name} logo">
+                </span>
+            </div>
+            <div class="panel-footer">
                 ${watch_service(service)}
             </div>
         </div>
