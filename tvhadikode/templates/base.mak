@@ -13,46 +13,13 @@
         <title><%block name="title">${make_title()}</%block></title>
         <link href="${request.static_path('tvhadikode:static/css/bootstrap.min.css')}" rel="stylesheet">
         <link href="${request.static_path('tvhadikode:static/css/lumen-theme.min.css')}" rel="stylesheet">
+        <link href="${request.static_path('tvhadikode:static/css/main.css')}" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
         <script src="${request.static_path('tvhadikode:static/js/html5shiv.js')}"></script>
         <script src="${request.static_path('tvhadikode:static/js/respond.min.js')}"></script>
         <![endif]-->
-
-        <style media="screen">
-            /* Fix for small devices */
-            @media (max-width:768px) {
-                .container {
-                    padding:0 1px;
-                }
-            }
-
-            /* Sticky footer */
-            html {
-                position: relative;
-                min-height: 100%;
-            }
-            body {
-                margin-bottom: 60px;
-            }
-            .footer {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-            }
-            .footer div.container {
-                height: 60px;
-                background-color: #f5f5f5;
-            }
-            .footer p {
-                margin-top: 20px;
-            }
-            .footer img {
-                height: 50px;
-                margin-top: 5px;
-            }
-        </style>
     </head>
     <body>
         <div class="container">
