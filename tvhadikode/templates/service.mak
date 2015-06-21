@@ -62,15 +62,24 @@
             </div>
         % endif
 
+        <%
+        current_program = None
+        next_program = None
+        if len(service.future_programs) > 0:
+            current_program = service.future_programs[0]
+        if len(service.future_programs) > 1:
+            next_program = service.future_programs[1]
+        %>
+
         <div class="row">
             <div class="col-md-6">
-                % if service.current_program:
-                    ${show_program("Jetzt live", service.current_program, "primary")}
+                % if current_program:
+                    ${show_program("Jetzt live", current_program, "primary")}
                 % endif
             </div>
             <div class="col-md-6">
-                % if len(service.future_programs) > 1:
-                    ${show_program("Im Anschluss", service.future_programs[1], "info")}
+                % if next_program:
+                    ${show_program("Im Anschluss", next_program, "info")}
                 % endif
             </div>
         </div>

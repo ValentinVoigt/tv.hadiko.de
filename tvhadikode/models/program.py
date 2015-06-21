@@ -53,7 +53,10 @@ class Program(Base):
     duration = Column(Integer, nullable=False) # in seconds
 
     next_program_id = Column(Integer, ForeignKey('programs.id'))
-    next = relationship("Program", uselist=False, lazy='joined')
+    next = relationship("Program", uselist=False)
+
+    def __repr__(self):
+        return '<Program name="%s" start="%s" end="%s">' % (self.name, self.start, self.end)
 
     @hybrid_property
     def start(self):

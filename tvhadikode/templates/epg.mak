@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        % for service in services:
+        % for service, current_program, next_program in services:
             <tr>
                 <td style="padding-top:15px">
                     % if service.has_logo:
@@ -31,35 +31,35 @@
                         ${watch_service(service, glyphicon=False)}
                     </small>
                 </td>
-                % if service.current_program:
+                % if current_program:
                     <td>
-                        <a href="#program-${service.current_program.id}" data-parent="#epg" data-toggle="collapse">
-                            ${service.current_program.name}
+                        <a href="#program-${current_program.id}" data-parent="#epg" data-toggle="collapse">
+                            ${current_program.name}
                         </a>
-                        % if service.next_program:
+                        % if next_program:
                             <br />
                             <small class="text-muted">
                                 <span class="visible-xs-inline">
-                                    noch ${short_duration(service.current_program.remaining)}
-                                    bis ${smartdate(service.current_program.end)},
+                                    noch ${short_duration(current_program.remaining)}
+                                    bis ${smartdate(current_program.end)},
                                 </span>
-                                danach: ${service.next_program.name}
+                                danach: ${next_program.name}
                             </small>
                         % endif
-                        <div class="collapse" id="program-${service.current_program.id}">
-                            % if service.current_program.caption:
-                                <p><b>${service.current_program.caption}</b></p>
+                        <div class="collapse" id="program-${current_program.id}">
+                            % if current_program.caption:
+                                <p><b>${current_program.caption}</b></p>
                             % endif
-                            % if service.current_program.description:
+                            % if current_program.description:
                             <p>
-                                ${service.current_program.description}
+                                ${current_program.description}
                             </p>
                             % endif
                             <p>
                                 <span class="text-muted">
-                                    von ${smartdate(service.current_program.start)}
-                                    bis ${smartdate(service.current_program.end)}
-                                    (${short_duration(service.current_program.duration)})
+                                    von ${smartdate(current_program.start)}
+                                    bis ${smartdate(current_program.end)}
+                                    (${short_duration(current_program.duration)})
                                 </span>
                             </p>
                         </div>
@@ -68,13 +68,13 @@
                         <div class="progress" style="height:10px; margin:10px 0 0 0">
                             <div
                                 class="progress-bar" role="progressbar"
-                                aria-valuenow="${service.current_program.percent_complete}"
+                                aria-valuenow="${current_program.percent_complete}"
                                 aria-valuemin="0" aria-valuemax="100"
-                                style="width: ${service.current_program.percent_complete}%;">
+                                style="width: ${current_program.percent_complete}%;">
                             </div>
                         </div>
                         <small class="text-muted">
-                            bis ${smartdate(service.current_program.end)}
+                            bis ${smartdate(current_program.end)}
                         </small>
                     </td>
                 % else:

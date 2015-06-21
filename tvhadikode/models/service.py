@@ -2,43 +2,19 @@
 
 import os
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
-from sqlalchemy import and_, Column, Integer, String
-from sqlalchemy.orm import relationship, reconstructor
+from sqlalchemy import select, and_, Column, Integer, String
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.hybrid import hybrid_property
 
 from pyramid.path import AssetResolver
 
-from tvhadikode.models import Base, Program
-
-def join_current():
-    now = datetime.now()
-    return and_(Program.sid==Service.sid, Program.start<=now, Program.end>=now)
-
-def join_next():
-    return and_(Program.id==Service.current_program.next_program_id)
+from tvhadikode.models import DBSession, Base, Program
 
 def join_future():
     now = datetime.now()
     return and_(Program.sid==Service.sid, Program.end>=now)
-
-class TimedRelationCache:
-
-    _cache = None
-    _time = ""
-    _model = None
-    _attribute = None
-
-    def __init__(self, model, attribute):
-        self._model = model
-        self._attribute = attribute
-
-    def get(self):
-        now = datetime.now().strftime("%H%M")
-        if now != self._time:
-            self._cache = getattr(self._model, self._attribute)
-            self._time = now
-        return self._cache
 
 class Service(Base):
     """
@@ -56,21 +32,10 @@ class Service(Base):
 
     programs = relationship("Program", backref="service", order_by="Program.start")
 
-    current_program = relationship("Program", lazy="joined", bake_queries=False, viewonly=True, uselist=False, join_depth=3, primaryjoin=join_current)
-    future_programs_raw = relationship("Program", bake_queries=False, viewonly=True, primaryjoin=join_future, order_by=Program.start_utc)
-    future_programs_cached = None
+    future_programs= relationship("Program", viewonly=True, primaryjoin=join_future, order_by=Program.start_utc)
 
-    @reconstructor
-    def init_on_load(self):
-        self.future_programs_cached = TimedRelationCache(self, 'future_programs_raw')
-
-    @property
-    def future_programs(self):
-        return self.future_programs_cached.get()
-
-    @property
-    def next_program(self):
-        return self.current_program.next
+    def __repr__(self):
+        return '<Service name="%s">' % self.name
 
     @property
     def logo_path(self):
