@@ -34,7 +34,7 @@ def main(global_config, **settings):
     config.add_route('service.watch.multicast', '/services/{service}/multicast.m3u')
     config.add_route('service.watch.unicast', '/services/{service}/unicast.m3u')
 
-    config.add_route('ajax.service.epgrow', '/ajax/services/{service}/epgrow')
+    config.add_route('ajax.epg_update', '/ajax/epg-update')
     config.add_route('ajax.status.traffic', '/ajax/status/traffic')
     config.add_route('ajax.status.signal_clients', '/ajax/status/signal_clients')
 

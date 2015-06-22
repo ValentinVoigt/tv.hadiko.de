@@ -7,10 +7,11 @@
 
 <%block name="javascript">
     function update_programs_loop() {
-        update_programs();
+        update_programs(true);
         window.setTimeout(update_programs_loop, 3000);
     }
-    function update_programs() {
+    function update_programs(do_reload) {
+        var rows_to_update = new Array();
         $('.progress-bar.program').each(function() {
             var start = Date.parse($(this).data('start'));
             var end = Date.parse($(this).data('end'));
@@ -18,12 +19,14 @@
             var duration = Math.round((end - start) / 1000);
             var elapsed = Math.round((now - start) / 1000);
             var percentage = Math.round(elapsed / duration * 100);
-            if (now > end)
-                reload_row($(this).closest("tr"));
+            if (now >= end)
+                rows_to_update.push($(this).closest("tr"));
             if (percentage > 100)
                 percentage = 100;
             $(this).attr("aria-valuenow", percentage).css("width", percentage + "%");
         });
+        if (rows_to_update.length > 0 && do_reload)
+            reload_rows(rows_to_update);
     }
 
     function display_loader(row, dfd) {
@@ -37,18 +40,37 @@
         });
     }
 
-    function reload_row(row) {
+    function reload_rows(rows) {
         var dfd = $.Deferred();
-        display_loader(row, dfd);
-        $.get($(row).data('reload-url'), function(data_raw) {
-            var data = $(data_raw).clone();
-            $(data).find('td:eq(2), td:eq(3)').hide();
+
+        var slugs = new Array();
+        $(rows).each(function() {
+            display_loader($(this), dfd);
+            slugs.push($(this).data('service-slug'));
+        });
+
+        $.ajax({
+            method: "POST",
+            url: $('#epg').data('reload-url'),
+            dataType: 'json',
+            data: {'services': slugs}
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            var error = $('<td style="padding-top:15px"><strong>Fehler!</strong> Laden fehlgeschlagen! <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span></td>');
+            $(rows).each(function() {
+                $(this).find("td:eq(2)").replaceWith(error.clone());
+                $(this).find("td:eq(3)").replaceWith("<td></td>");
+            });
+        }).done(function(data_raw, textStatus, jqXHR) {
             dfd.done(function() {
-                $(row).replaceWith(data);
-                $(data).find('td:eq(2), td:eq(3)').fadeIn(function() {
-                    $(row).css("height", "");
-                    update_programs();
-                });
+                for (var slug in data_raw.rows) {
+                    var data = $(data_raw.rows[slug]).clone();
+                    $(data).find('td:eq(2), td:eq(3)').hide();
+
+                    $("#service-"+slug).replaceWith(data);
+                    $(data).find('td:eq(2), td:eq(3)').fadeIn(function() {
+                        update_programs(false);
+                    });
+                }
             });
         });
     }
@@ -59,7 +81,7 @@
 </%block>
 
 <%def name="service_row(service, current_program, next_program)">
-    <tr data-reload-url="${request.route_path("ajax.service.epgrow", service=service.slug)}">
+    <tr class="epgrow" data-service-slug="${service.slug}" id="service-${service.slug}">
         <td style="padding-top:15px">
             % if service.has_logo:
             <img
@@ -133,7 +155,9 @@
     </tr>
 </%def>
 
-<table class="table table-striped" id="epg" data-loader-src="${request.static_path('tvhadikode:static/img/ajax-loader.gif')}">
+<table class="table table-striped" id="epg"
+    data-loader-src="${request.static_path('tvhadikode:static/img/ajax-loader.gif')}"
+    data-reload-url="${request.route_path("ajax.epg_update")}">
     <thead>
         <tr>
             <th width="35">&nbsp;</th>
