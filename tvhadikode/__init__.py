@@ -3,6 +3,7 @@
 import locale
 
 from pyramid.config import Configurator
+from pyramid.settings import asbool
 from sqlalchemy import engine_from_config
 
 from .models import (
@@ -22,11 +23,13 @@ def main(global_config, **settings):
     assert 'tv.locale' in settings
     assert 'tv.timezone' in settings
     assert 'tv.mumudvb_urls' in settings
+    assert 'tv.static_path' in settings
 
     locale.setlocale(locale.LC_ALL, settings.get('tv.locale'))
 
     config.include('pyramid_mako')
-    config.add_static_view('static', 'static', cache_max_age=3600)
+
+    config.add_static_view(settings.get('tv.static_path'), 'static', cache_max_age=3600)
 
     config.add_route('home', '/')
     config.add_route('status', '/status')

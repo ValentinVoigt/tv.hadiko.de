@@ -18,8 +18,13 @@ sqlalchemy.url = sqlite:///%(here)s/tv.hadiko.de.sqlite
 
 ###
 # Tuner configuration
-###
+#
+# tv.static_path:
+#   Use "static" to enable serving static files.
+#   Use a URL to disable static file server
+##
 
+tv.static_path = static
 tv.locale = de_DE.utf8
 tv.timezone = Europe/Berlin
 tv.mumudvb_urls =
