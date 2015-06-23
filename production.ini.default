@@ -17,7 +17,7 @@ pyramid.includes =
 sqlalchemy.url = sqlite:///%(here)s/tv.hadiko.de.sqlite
 
 ###
-# Tuner configuration
+# Main configuration
 #
 # tv.static_path:
 #   Use "static" to enable serving static files.
