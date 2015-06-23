@@ -4,17 +4,13 @@ import os
 
 from datetime import datetime
 
-from sqlalchemy import select, and_, Column, Integer, String
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.hybrid import hybrid_property
 
 from pyramid.path import AssetResolver
+from pyramid.decorator import reify
 
 from tvhadikode.models import DBSession, Base, Program
-
-def join_future():
-    now = datetime.now()
-    return and_(Program.sid==Service.sid, Program.end>=now)
 
 class Service(Base):
     """
@@ -32,10 +28,15 @@ class Service(Base):
 
     programs = relationship("Program", backref="service", order_by="Program.start")
 
-    future_programs= relationship("Program", viewonly=True, primaryjoin=join_future, order_by=Program.start_utc)
-
     def __repr__(self):
         return '<Service name="%s">' % self.name
+
+    @reify
+    def future_programs(self):
+        now = datetime.now()
+        query = DBSession.query(Program).filter(Program.sid==self.sid, Program.end>=now)
+        query = query.order_by(Program.start_utc)
+        return query.all()
 
     @property
     def logo_path(self):
