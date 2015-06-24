@@ -19,6 +19,7 @@
             "${request.route_path('ajax.status.signal_clients')}"
         ).done(function(data) {
             $('#signal_clients').html(data);
+            $('.show-services').popover();
         }).fail(function() {
             $('#signal_clients').html($('#error-template').clone().removeClass('hide'));
         });

@@ -5,7 +5,7 @@
 <table class="table table-striped table-hover">
     <thead>
         <tr>
-            <th>Card</th>
+            <th>Karte</th>
             <th>System</th>
             <th>Frequenz</th>
             <th>SNR</th>
@@ -14,9 +14,16 @@
         </tr>
     </thead>
     <tbody>
-        % for data in status:
+        % for rownum, data in enumerate(status):
         <tr>
-            <td>${data['tune']['card_path']}</td>
+            <td>
+                <% channels = sorted([channel['name'] for channel in data['channels']]) %>
+                <a tabindex="0" role="button" class="show-services" data-toggle="popover" data-trigger="focus"
+                title="Kanäle" data-content="${", ".join(channels)}">
+                ${data['tune']['card_path']}
+            </a>
+
+            </td>
             <td>${data['tune']['frontend_system']}</td>
             <td>${data['tune']['frontend_frequency']}</td>
             <td>${data['tune']['frontend_signal']}</td>
@@ -44,7 +51,15 @@
         <% if len(channel['clients'][0].keys()) == 0: continue %>
         <% n+= 1 %>
         <tr>
-            <td>${channel['name']}</td>
+            <td>
+                % if services.get(channel['name']):
+                    <a href="${request.route_path('service', service=services.get(channel['name']).slug)}">
+                        ${channel['name']}
+                    </a>
+                % else:
+                    ${channel['name']}
+                % endif
+            </td>
             <td>
                 <ul class="list-unstyled">
                 % for client in channel['clients']:
