@@ -103,7 +103,9 @@ def main():
 
     transaction.begin()
     print("Deleting all programs...")
+    DBSession.connection().execute("SET FOREIGN_KEY_CHECKS = 0;")
     DBSession.query(Program).delete()
+    DBSession.connection().execute("SET FOREIGN_KEY_CHECKS = 1;")
     print()
     for url in urls:
         import_epg(url)
