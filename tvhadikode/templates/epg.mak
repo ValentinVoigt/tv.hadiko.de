@@ -135,8 +135,8 @@
                 <div class="progress" style="height:10px; margin:10px 0 0 0">
                     <div
                         class="progress-bar program" role="progressbar"
-                        data-start="${current_program.start_utc.isoformat()}"
-                        data-end="${current_program.end_utc.isoformat()}"
+                        data-start="${current_program.start_utc.isoformat()}+00:00"
+                        data-end="${current_program.end_utc.isoformat()}+00:00"
                         aria-valuenow="0"
                         aria-valuemin="0" aria-valuemax="100"
                         style="width: 0%;">
