@@ -16,11 +16,13 @@ class WatchViews(BaseView):
 
     @view_config(route_name='service.watch.unicast')
     def watch_unicast(self):
-        return self.return_m3u(self.service.slug, self.service.unicast_url)
+        host = self.request.registry.settings.get('tv.unicast_host')
+        url = "http://%s:%s/" % (host, self.service.unicast_port)
+        return self.return_m3u(self.service.slug, url)
 
     @view_config(route_name='service.watch.multicast')
     def watch_multicast(self):
-        return self.return_m3u(self.service.slug, "udp://@" + self.service.multicast_ip)
+        return self.return_m3u(self.service.slug, "udp://@" + self.service.multicast_ip_port)
 
     def return_m3u(self, name, url):
         body = "#EXTM3U\n#EXTINF:0,%s\n%s" % (self.service.name, url)

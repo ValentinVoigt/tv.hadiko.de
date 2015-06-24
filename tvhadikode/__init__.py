@@ -20,10 +20,11 @@ def main(global_config, **settings):
     Base.metadata.bind = engine
     config = Configurator(settings=settings)
 
+    assert 'tv.static_path' in settings
     assert 'tv.locale' in settings
     assert 'tv.timezone' in settings
+    assert 'tv.unicast_host' in settings
     assert 'tv.mumudvb_urls' in settings
-    assert 'tv.static_path' in settings
 
     locale.setlocale(locale.LC_ALL, settings.get('tv.locale'))
 

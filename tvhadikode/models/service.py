@@ -23,8 +23,8 @@ class Service(Base):
     sid = Column(Integer, nullable=False, unique=True) # Service ID
     name = Column(String(255), index=True, nullable=False)
     slug = Column(String(255), unique=True, nullable=False)
-    multicast_ip = Column(String(255), nullable=False)
-    unicast_url = Column(String(255), nullable=False)
+    multicast_ip_port = Column(String(255), nullable=False)
+    unicast_port = Column(Integer, nullable=False)
 
     programs = relationship("Program", backref="service", order_by="Program.start")
 

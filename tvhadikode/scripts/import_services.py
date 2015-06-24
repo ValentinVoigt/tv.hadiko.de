@@ -33,8 +33,8 @@ def import_services(urls):
                 sid=channel['service_id'],
                 name=channel['name'],
                 slug=slugify(channel['name'], to_lower=True, may_length=255),
-                multicast_ip="%s:%i" % (channel['ip_multicast'], channel['port_multicast']),
-                unicast_url="%s/bysid/%i" % (url, channel['service_id'])
+                multicast_ip_port="%s:%i" % (channel['ip_multicast'], channel['port_multicast']),
+                unicast_port=int(channel['unicast_port'])
             ))
 
 def main():
