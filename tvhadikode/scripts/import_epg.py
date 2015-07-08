@@ -76,15 +76,18 @@ def import_epg(url):
             programs = []
             for event in events:
                 n += 1
-                program = Program(
-                    service=service,
-                    start_utc=event['start'],
-                    end_utc=event['start'] + timedelta(seconds=event['duration']),
-                    duration=event['duration'],
-                    name=event['name'],
-                    description=event.get('descr'),
-                    caption=event.get('caption'),
-                )
+                try:
+                    program = Program(
+                        service=service,
+                        start_utc=event['start'],
+                        end_utc=event['start'] + timedelta(seconds=event['duration']),
+                        duration=event['duration'],
+                        name=event['name'],
+                        description=event.get('descr'),
+                        caption=event.get('caption'),
+                    )
+                except KeyError:
+                    pass
                 if len(programs) > 0:
                     if (program.start - programs[-1].end).total_seconds() == 0:
                         program.next = programs[-1]
