@@ -34,14 +34,14 @@
     serviceProvider.initialize(true);
 
     var serviceTemplate = function(obj) {
-        return '<div class="tt-suggestion">\
+        return '<div class="tt-suggestion tt-item">\
             ' + obj.service + '\
             <span class="text-muted">&mdash; ' + obj.current_program + '</span>\
             </div>';
     }
 
     var programTemplate = function(obj) {
-        return '<div class="tt-suggestion">\
+        return '<div class="tt-suggestion tt-item">\
             ' + obj.name + '\
             <span class="text-muted">\
             &mdash; ' + obj.service + '\
@@ -58,14 +58,14 @@
             display: 'service',
             templates: {
                 suggestion: serviceTemplate,
-                header: '<h4>Kanäle</h4>'
+                header: '<div class="tt-suggestion tt-header">Kanäle</div>'
             }
         }, {
             source: programsProvider,
             display: 'name',
             templates: {
                 suggestion: programTemplate,
-                header: '<h4>Programme</h4>'
+                header: '<div class="tt-suggestion tt-header">Programme</div>'
             }
         });
 

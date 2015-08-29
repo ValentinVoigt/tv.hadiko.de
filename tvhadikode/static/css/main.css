@@ -18,6 +18,13 @@
 #input-search-container {
     margin-top: 34px;
 }
+.tt-header {
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+}
+.tt-item {
+    padding-left: 2em;
+}
 .has-feedback .form-control-feedback {
     position: absolute;
     top: 3px;
