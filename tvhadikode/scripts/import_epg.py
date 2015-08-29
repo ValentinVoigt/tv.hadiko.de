@@ -32,7 +32,7 @@ def parse_eit_duration(duration):
 
 def import_epg(url):
     print("Downloading %s..." % url)
-    eit = str(urllib.request.urlopen("%s/monitor/EIT.json" % url).read(), "utf-8", 'replace')
+    eit = str(urllib.request.urlopen(url).read(), "utf-8", 'replace')
     print("JSON parsing...")
     eit = re.sub(r'"language" : ".*".*",$', r'"language" : "",', eit, flags=re.M)
     eit = re.sub(r'("descr" : "[^"]+")(\s*")', r"\1,\2", eit, flags=re.M)
@@ -111,5 +111,5 @@ def main():
     DBSession.connection().execute("SET FOREIGN_KEY_CHECKS = 1;")
     print()
     for url in urls:
-        import_epg(url)
+        import_epg("%s/monitor/EIT.json" % url)
     transaction.commit()
