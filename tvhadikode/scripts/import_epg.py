@@ -37,6 +37,7 @@ def import_epg(url):
     eit = re.sub(r'"language" : ".*".*",$', r'"language" : "",', eit, flags=re.M)
     eit = re.sub(r'("descr" : "[^"]+")(\s*")', r"\1,\2", eit, flags=re.M)
     eit = re.sub(r'("rating" : "[^"]+")(\s*")', r"\1,\2", eit, flags=re.M)
+    eit = re.sub(r'("text" : "[^"]+")(\s*")', r"\1,\2", eit, flags=re.M)
     eit = re.sub(r'",(\s*)}', r'"\1}', eit, flags=re.M)
     try:
         eit = json.loads(eit, strict=False)
