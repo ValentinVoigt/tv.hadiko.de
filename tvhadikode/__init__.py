@@ -41,6 +41,8 @@ def main(global_config, **settings):
     config.add_route('ajax.epg_update', '/ajax/epg-update')
     config.add_route('ajax.status.traffic', '/ajax/status/traffic')
     config.add_route('ajax.status.signal_clients', '/ajax/status/signal_clients')
+    config.add_route('ajax.search.services', '/ajax/search/services')
+    config.add_route('ajax.search.programs', '/ajax/search/programs/{query}')
 
     config.scan()
     return config.make_wsgi_app()

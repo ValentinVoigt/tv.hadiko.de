@@ -1,9 +1,23 @@
 ## -*- coding: utf-8 -*-
 
-<%inherit file="base.mak"/>
+<%inherit file="base_complex.mak"/>
 <%namespace file="functions.mak" import="*"/>
 <%block name="title">${make_title([service.name])}</%block>
 <%block name="headline">${make_headline([service.name])}</%block>
+
+
+<%block name="javascript">
+    ${parent.javascript()}
+
+    $(function() {
+        var hash = window.location.hash.substring(1);
+        var elem = $('#' + hash);
+        if (elem.length != 0) {
+            $(elem).find('div.collapse').collapse('show');
+            $(window).scrollTo(elem, 800);
+        }
+    });
+</%block>
 
 <% from tvhadikode.utils.group_programs import group_programs %>
 
@@ -91,7 +105,7 @@
             </div>
             <table class="table table-hover" style="table-layout:fixed;" id="programs-${day.strftime('%Y%m%d')}">
                 % for program in programs:
-                    <tr>
+                    <tr id="p${program.anchor}">
                         <td style="width:140px;">
                             ${smartdate(program.start)}
                             ## ${short_duration(program.duration)}
@@ -102,10 +116,10 @@
                             % endif
                         </td>
                         <td>
-                            <a href="#program-${program.id}" data-parent="#programs-${day.strftime('%Y%m%d')}" data-toggle="collapse">
+                            <a href="#desc-${program.anchor}" data-parent="#programs-${day.strftime('%Y%m%d')}" data-toggle="collapse">
                                 ${program.name}
                             </a>
-                            <div class="collapse" id="program-${program.id}">
+                            <div class="collapse" id="desc-${program.anchor}">
                                 % if program.caption:
                                     <p><span class="text-muted">${program.caption}</span></p>
                                 % endif

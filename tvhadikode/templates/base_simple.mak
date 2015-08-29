@@ -13,6 +13,7 @@
         <title><%block name="title">${make_title()}</%block></title>
         <link href="${request.static_path('tvhadikode:static/css/bootstrap.min.css')}" rel="stylesheet">
         <link href="${request.static_path('tvhadikode:static/css/lumen-theme.min.css')}" rel="stylesheet">
+        <link href="${request.static_path('tvhadikode:static/css/typeahead-theme.css')}" rel="stylesheet">
         <link href="${request.static_path('tvhadikode:static/css/main.css')}" rel="stylesheet">
 
         <!--[if lt IE 9]>
@@ -22,11 +23,19 @@
     </head>
     <body>
         <div class="container">
-            <h1 class="page-header">
-                <%block name="headline">${make_headline()}</%block>
-                <img src="${request.static_path('tvhadikode:static/img/logo_hadinet_light.png')}"
-                    alt="HaDiNet Logo" class="pull-right" />
-            </h1>
+            <div class="page-header" id="header">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h1><%block name="headline">${make_headline()}</%block></h1>
+                    </div>
+                    <div class="col-sm-4">
+                        <%block name="header">
+                            <img src="${request.static_path('tvhadikode:static/img/logo_hadinet_light.png')}"
+                                alt="HaDiNet Logo"  class="pull-right" />
+                        </%block>
+                    </div>
+                </div>
+            </div>
 
             ${self.body()}
         </div>
@@ -54,6 +63,8 @@
         </footer>
         <script src="${request.static_path('tvhadikode:static/js/jquery.min.js')}"></script>
         <script src="${request.static_path('tvhadikode:static/js/bootstrap.min.js')}"></script>
+        <script src="${request.static_path('tvhadikode:static/js/jquery.scrollTo.min.js')}"></script>
+        <%block name="javascript_src"/>
         <script type="text/javascript">
             <%block name="javascript"/>
         </script>

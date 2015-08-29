@@ -1,6 +1,6 @@
 ## -*- coding: utf-8 -*-
 
-<%inherit file="../base.mak"/>
+<%inherit file="../base_simple.mak"/>
 <%namespace file="../functions.mak" import="*"/>
 <%block name="title">${make_title(["Fehler"])}</%block>
 <%block name="headline">${make_headline(["Fehler"])}</%block>

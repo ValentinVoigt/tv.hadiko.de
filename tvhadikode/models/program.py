@@ -120,3 +120,10 @@ class Program(Base):
             return 100
         else:
             return round(float(passed) / float(self.duration) * 100)
+
+    @property
+    def anchor(self):
+        """
+        Returns a string, unique to this program (used as anchor).
+        """
+        return self.start.strftime("%m%d%H%M")

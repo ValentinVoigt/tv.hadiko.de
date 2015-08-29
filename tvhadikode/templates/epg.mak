@@ -1,11 +1,13 @@
 ## -*- coding: utf-8 -*-
 
-<%inherit file="base.mak"/>
+<%inherit file="base_complex.mak"/>
 <%namespace file="functions.mak" import="*"/>
 <%block name="title">${make_title()}</%block>
 <%block name="headline">${make_headline()}</%block>
 
 <%block name="javascript">
+    ${parent.javascript()}
+
     function update_programs_loop() {
         update_programs(true);
         window.setTimeout(update_programs_loop, 3000);

@@ -1,11 +1,13 @@
 ## -*- coding: utf-8 -*-
 
-<%inherit file="base.mak"/>
+<%inherit file="base_complex.mak"/>
 <%namespace file="functions.mak" import="*"/>
 <%block name="title">${make_title(["Status"])}</%block>
 <%block name="headline">${make_headline(["Status"])}</%block>
 
 <%block name="javascript">
+    ${parent.javascript()}
+
     $(function() {
         $.ajax(
             "${request.route_path('ajax.status.traffic')}"
