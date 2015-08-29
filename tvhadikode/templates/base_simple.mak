@@ -22,7 +22,7 @@
         <![endif]-->
     </head>
     <body>
-        <div class="container">
+        <div class="container" id="main">
             <div class="page-header" id="header">
                 <div class="row">
                     <div class="col-sm-8">

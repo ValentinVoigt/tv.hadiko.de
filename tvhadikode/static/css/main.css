@@ -1,6 +1,6 @@
 /* Fix for small devices */
 @media (max-width:768px) {
-    .container {
+    #main.container {
         padding:0 1px;
     }
     #header {
