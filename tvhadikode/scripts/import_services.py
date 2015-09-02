@@ -44,7 +44,7 @@ def import_services(urls):
                 ))
                 print ("* %s" % channel['name'])
             else:
-                print("%s: already exists" % channel['name'])
+                print("* %s: already exists" % channel['name'])
 
 def main():
     if len(sys.argv) != 2:
