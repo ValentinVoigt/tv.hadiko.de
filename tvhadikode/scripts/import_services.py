@@ -6,6 +6,7 @@ import json
 import urllib.request
 import transaction
 
+from sqlalchemy.exc import IntegrityError
 from pyramid.paster import bootstrap
 from slugify import slugify
 
@@ -26,16 +27,22 @@ def extract_urls(settings):
         yield url
 
 def import_services(urls):
+    print("Adding services...")
     for url in urls:
+        print("%s/monitor/state.json" % url)
         data = json.loads(str(urllib.request.urlopen("%s/monitor/state.json" % url).read(), "utf-8"))
         for channel in data['channels']:
-            DBSession.add(Service(
-                sid=channel['service_id'],
-                name=channel['name'],
-                slug=slugify(channel['name'], to_lower=True, may_length=255),
-                multicast_ip_port="%s:%i" % (channel['ip_multicast'], channel['port_multicast']),
-                unicast_port=int(channel['unicast_port'])
-            ))
+            try:
+                DBSession.add(Service(
+                    sid=channel['service_id'],
+                    name=channel['name'],
+                    slug=slugify(channel['name'], to_lower=True, may_length=255),
+                    multicast_ip_port="%s:%i" % (channel['ip_multicast'], channel['port_multicast']),
+                    unicast_port=int(channel['unicast_port'])
+                ))
+                print ("* %s")
+            except IntegrityError:
+                print("%s: already exists")
 
 def main():
     if len(sys.argv) != 2:
