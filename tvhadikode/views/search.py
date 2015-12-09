@@ -25,7 +25,7 @@ class SearchViews(BaseView):
             service, current_program = result
             data.append({
                 'service': service.name,
-                'current_program': current_program.name,
+                'current_program': current_program.name if current_program else None,
                 'url': self.request.route_path('service', service=service.slug)
             })
         return data

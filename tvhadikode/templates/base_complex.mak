@@ -34,10 +34,16 @@
     serviceProvider.initialize(true);
 
     var serviceTemplate = function(obj) {
-        return '<div class="tt-suggestion tt-item">\
-            ' + obj.service + '\
-            <span class="text-muted">&mdash; ' + obj.current_program + '</span>\
-            </div>';
+        if (obj.current_program) {
+            return '<div class="tt-suggestion tt-item">\
+                ' + obj.service + '\
+                <span class="text-muted">&mdash; ' + obj.current_program + '</span>\
+                </div>';
+        } else {
+            return '<div class="tt-suggestion tt-item">\
+                ' + obj.service + '\
+                </div>';
+        }
     }
 
     var programTemplate = function(obj) {
