@@ -2,7 +2,7 @@
 
 <%block name="header">
     <div class="form-group has-feedback" id="input-search-container">
-        <input type="text" class="form-control typeahead" placeholder="Suchen..." aria-describedby="input-search-status" id="input-search">
+        <input type="text" class="form-control typeahead" placeholder="Programm oder Kanal..." aria-describedby="input-search-status" id="input-search">
         <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
         <span id="input-search-status" class="sr-only">(Suche)</span>
     </div>
