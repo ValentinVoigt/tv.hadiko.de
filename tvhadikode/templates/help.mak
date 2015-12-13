@@ -13,7 +13,7 @@
 <p>
     Wir empfehlen den <a href="https://www.videolan.org/vlc/" target="_blank">VLC Player</a>, um die
     TV Livestreams im HaDiKo zu schauen. Mit diesem kannst du die <code>m3u</code>-Dateien öffnen, die
-    die hier herunterladen kannst.
+    du hier herunterladen kannst.
 </p>
 
 <p>
@@ -25,13 +25,13 @@
 
 <p>
     Wenn dein Browser dich fragt, womit er die <code>m3u</code>-Dateien öffnen soll, dann kannst du
-    in dieserm Fenster den VLC-Player auswählen. Im Google Chrome kannst du einen Rechtsklick auf
+    in diesem Fenster den VLC-Player auswählen. Im Google Chrome kannst du einen Rechtsklick auf
     deinen Download machen und dort <i>„Dateien dieses Typs immer öffnen“</i>. Wenn du das
     eingestellt hast, kannst du bequem mit nur einem Klick Fernsehen und umschalten!
 </p>
 
 <p>
-    Solltest du Fragen dazu haben oder Probleme mit der Einrichtung, so melde dich gern an
+    Solltest du Fragen oder Probleme mit der Einrichtung haben, so melde dich gern an
     <a href="mailto:support@hadiko.de">support@hadiko.de</a> oder schau bei uns im IRC vorbei unter
     <samp>irc.hadiko.de</samp> im Channel <samp>#help</samp>.
 </p>
