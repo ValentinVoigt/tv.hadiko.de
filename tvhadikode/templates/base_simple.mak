@@ -45,12 +45,13 @@
                 <div class="row">
                     <div class="col-xs-4">
                         <p>
-                            <a href="mailto:support@hadiko.de">support@hadiko.de</a>
+                            <a href="${request.route_path("help")}">Anleitung und Tipps</a>
                         </p>
                     </div>
                     <div class="col-xs-4">
                         <p class="text-muted text-center">
-                            &copy; 2015, HaDiNet
+                            <span class="text-muted">&copy; 2015, </span>
+                            <a href="mailto:support@hadiko.de">HaDiNet</a>
                         </p>
                     </div>
                     <div class="col-xs-4">

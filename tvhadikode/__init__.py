@@ -33,8 +33,11 @@ def main(global_config, **settings):
     config.add_static_view(settings.get('tv.static_path'), 'static', cache_max_age=3600)
 
     config.add_route('home', '/')
+    config.add_route('help', '/help')
     config.add_route('status', '/status')
     config.add_route('service', '/services/{service}')
+    config.add_route('watch.multicast', '/playlist/tv_multicast.m3u')
+    config.add_route('watch.unicast', '/playlist/tv_unicast.m3u')
     config.add_route('service.watch.multicast', '/services/{service}/multicast.m3u')
     config.add_route('service.watch.unicast', '/services/{service}/unicast.m3u')
 

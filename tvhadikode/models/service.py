@@ -9,6 +9,7 @@ from sqlalchemy.orm import relationship
 
 from pyramid.path import AssetResolver
 from pyramid.decorator import reify
+from pyramid.threadlocal import get_current_registry
 
 from tvhadikode.models import DBSession, Base, Program
 
@@ -46,3 +47,13 @@ class Service(Base):
     def has_logo(self):
         path = AssetResolver().resolve(self.logo_path).abspath()
         return os.path.isfile(path)
+
+    @property
+    def unicast_path(self):
+        host = get_current_registry().settings.get('tv.unicast_host')
+        return "http://%s:%s/" % (host, self.unicast_port)
+
+    @property
+    def multicast_path(self):
+        host = get_current_registry().settings.get('tv.unicast_host')
+        return "udp://@" + self.multicast_ip_port
