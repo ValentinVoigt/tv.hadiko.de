@@ -44,8 +44,8 @@ setup(name='tv.hadiko.de',
       main = tvhadikode:main
       [console_scripts]
       tv_create_tables = tvhadikode.scripts.create_tables:main
+      tv_create_logos = tvhadikode.scripts.create_logos:main
       tv_import_services = tvhadikode.scripts.import_services:main
-      tv_import_epg_json = tvhadikode.scripts.import_epg_json:main
       tv_import_epg = tvhadikode.scripts.import_epg:main
       """,
       )

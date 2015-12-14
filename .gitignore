@@ -3,4 +3,5 @@
 /tv.hadiko.de.egg-info
 __pycache__/
 /tv.hadiko.de.sqlite
+/tvhadikode/static/services/opaque/
 Thumbs.db

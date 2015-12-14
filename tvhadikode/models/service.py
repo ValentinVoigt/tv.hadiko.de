@@ -44,6 +44,10 @@ class Service(Base):
         return "tvhadikode:static/services/%i.png" % self.sid
 
     @property
+    def logo_path_opaque(self):
+        return "tvhadikode:static/services/opaque/%i.png" % self.sid
+
+    @property
     def has_logo(self):
         path = AssetResolver().resolve(self.logo_path).abspath()
         return os.path.isfile(path)
