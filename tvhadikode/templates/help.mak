@@ -36,6 +36,11 @@
     <samp>irc.hadiko.de</samp> im Channel <samp>#help</samp>.
 </p>
 
+<p>
+    <span class="label label-info">Tipp!</span>
+    Drücke <kbd>f</kbd> auf deiner Tastatur, um direkt in's Suchfeld zu gelangen!
+</p>
+
 <br style="clear:both">
 
 <h2 style="margin-bottom:1em">Bequem alle Sender speichern</h2>
