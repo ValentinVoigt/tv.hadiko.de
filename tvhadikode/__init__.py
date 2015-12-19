@@ -38,6 +38,7 @@ def main(global_config, **settings):
     config.add_route('service', '/services/{service}')
     config.add_route('watch.multicast', '/playlist/tv_multicast.m3u')
     config.add_route('watch.unicast', '/playlist/tv_unicast.m3u')
+    config.add_route('watch.xmltv', '/playlist/xmltv.xml')
     config.add_route('service.watch.multicast', '/services/{service}/multicast.m3u')
     config.add_route('service.watch.unicast', '/services/{service}/unicast.m3u')
 

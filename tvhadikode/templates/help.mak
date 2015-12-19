@@ -68,12 +68,9 @@
     als Addon. Bei der Konfiguration kannst du dann eine der beiden Playlist-URLs
     <span class="text-muted">(Rechtsklick → Adresse des Links kopieren)</span> unter dem Punkt
     <i>„M3U Wiedergabelisten-URL“</i> einfügen. Anschließend kannst du unter
-    <i>„Channel Logos Base URL“</i> noch <samp>http://tv.hadiko.de</samp> eintragen, um auch die Senderlogos
-    zu sehen.
-</p>
-
-<p>
-    Die Anzeige eines EPG in Kodi ist noch in Arbeit.
+    <i>„Basis-URL der Senderlogos“</i> noch <samp>http://tv.hadiko.de</samp> eintragen, um auch die Senderlogos
+    zu sehen. Im Feld <i>„XMLTV URL“</i> trägst du dann noch <samp>http://tv.hadiko.de/playlist/xmltv.xml</samp>
+    ein, um auch ein EPG in deinem Kodi zu sehen.
 </p>
 
 <br style="clear:both">
