@@ -2,6 +2,7 @@
 
 import os
 import sys
+import shutil
 
 from pyramid.paster import bootstrap
 from pyramid.path import AssetResolver
@@ -17,6 +18,11 @@ def main():
         usage()
 
     bootstrap(sys.argv[1])
+
+    if shutil.which('convert') is None:
+        print('Error: ImageMagick not found ("convert" is not in $PATH)')
+        print('Try: sudo apt-get install imagemagick')
+        sys.exit(2)
 
     create_logos()
 
