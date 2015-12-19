@@ -21,7 +21,7 @@ class WatchViews(BaseView):
     def watch_all(self, get_url, filename):
         body = '#EXTM3U tvg-shift=1\n'
         for service in DBSession.query(Service).order_by(Service.name).all():
-            logo = self.request.static_path(service.logo_path_opaque)
+            logo = self.request.static_path(service.logo_path)
             body += '#EXTINF:-1 tvg-id="%s" tvg-logo="%s",%s\n' % (service.slug, logo, service.name)
             body += get_url(service) + "\n"
         return self.make_m3u_response(body, filename)
