@@ -74,3 +74,15 @@
 </p>
 
 <br style="clear:both">
+
+<h2 style="margin-bottom:1em">Beispielbilder</h2>
+
+<div class="row">
+    % for i in range(1, 7):
+    <div class="col-xs-12 col-md-6 col-lg-4">
+        <a href="${request.static_path('tvhadikode:static/img/kodi_iptv_%i.png' % i)}" class="thumbnail">
+            <img src="${request.static_path('tvhadikode:static/img/kodi_iptv_%i.png' % i)}" class="img-responsive" alt="Kodi Bild ${i}">
+        </a>
+    </div>
+    % endfor
+</div>
