@@ -30,6 +30,15 @@ def parse_eit_duration(duration):
     hours, minutes, seconds = [int(i) for i in duration.split(':')]
     return hours * 3600 + minutes * 60 + seconds
 
+def set_foreign_key_checks(enable):
+    if DBSession.bind.dialect.name == 'sqlite':
+        statement = "PRAGMA foreign_keys = %s;" % ('ON' if enable else 'OFF')
+    elif DBSession.bind.dialect.name == 'mysql':
+        statement = "SET FOREIGN_KEY_CHECKS = %i;" % (1 if enable else 0)
+    else:
+        print("Warning: Unknown dialect `%s'. Cannot disable foreign key checks.")
+    DBSession.connection().execute(statement)
+
 def import_epg(url):
     print("Downloading %s..." % url)
     eit = str(urllib.request.urlopen(url).read(), "utf-8", 'replace')
@@ -111,9 +120,9 @@ def main():
 
     transaction.begin()
     print("Deleting all programs...")
-    DBSession.connection().execute("SET FOREIGN_KEY_CHECKS = 0;")
+    set_foreign_key_checks(True)
     DBSession.query(Program).delete()
-    DBSession.connection().execute("SET FOREIGN_KEY_CHECKS = 1;")
+    set_foreign_key_checks(False)
     print()
     for url in urls:
         import_epg("%s/monitor/EIT.json" % url)
