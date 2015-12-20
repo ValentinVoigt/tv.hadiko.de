@@ -36,7 +36,7 @@ class WatchViews(BaseView):
         return Response(
             bytes(body, "utf-8"),
             content_type="audio/mpegurl",
-            content_length=len(body),
+            content_length=len(bytes(body, "utf-8")),
             content_disposition='attachment; filename="%s.m3u"' % filename,
             content_encoding='binary',
         )
