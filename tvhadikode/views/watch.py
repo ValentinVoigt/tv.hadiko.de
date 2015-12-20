@@ -29,7 +29,7 @@ class WatchViews(BaseView):
         return self.make_m3u_response(body, filename)
 
     def build_single_m3u(self, name, url):
-        body = "#EXTM3U\n#EXTINF:0,%s\n%s" % (self.service.name, url)
+        body = "#EXTM3U\n#EXTINF:0,%s\n%s\n" % (self.service.name, url)
         return self.make_m3u_response(body, name)
 
     def make_m3u_response(self, body, filename):
