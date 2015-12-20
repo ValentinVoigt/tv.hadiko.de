@@ -17,7 +17,8 @@ requires = [
     'waitress',
     'python-dateutil',
     'awesome-slugify',
-    'pytz'
+    'pytz',
+    'paste'
     ]
 
 setup(name='tv.hadiko.de',
