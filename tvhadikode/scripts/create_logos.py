@@ -33,7 +33,7 @@ def create_logos():
 
     command = """
     mkdir -p opaque
-    convert -size 200x200 gradient:gray30-gray15 -evaluate cos 0.5 -negate -distort SRT -45 opaque/bg.png
+    convert -size 200x200 gradient:gray50-gray25 -distort SRT -45 opaque/bg.png
 
     # Some logos need special treatment for dark backgrounds
     convert 11100.png -modulate 200% 11100_opaque.png
