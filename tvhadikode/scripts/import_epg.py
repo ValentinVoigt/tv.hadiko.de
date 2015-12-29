@@ -120,9 +120,9 @@ def main():
 
     transaction.begin()
     print("Deleting all programs...")
-    set_foreign_key_checks(True)
-    DBSession.query(Program).delete()
     set_foreign_key_checks(False)
+    DBSession.query(Program).delete()
+    set_foreign_key_checks(True)
     print()
     for url in urls:
         import_epg("%s/monitor/EIT.json" % url)
