@@ -3,7 +3,7 @@
 # http://docs.pylonsproject.org/projects/pyramid/en/1.6-branch/narr/environment.html
 ###
 
-[app:main]
+[app:tvhadikode]
 use = egg:tv.hadiko.de
 
 pyramid.reload_templates = false
@@ -40,6 +40,18 @@ mako.input_encoding = utf-8
 mako.imports =
      from tvhadikode.utils.helpers import smartdate, short_duration
 
+##
+# Logging
+##
+
+[filter:translogger]
+use = egg:Paste#translogger
+setup_console_handler = False
+
+[pipeline:main]
+pipeline = translogger
+           tvhadikode
+
 [server:main]
 use = egg:waitress#main
 host = 0.0.0.0
@@ -51,7 +63,7 @@ port = 6543
 ###
 
 [loggers]
-keys = root, tvhadikode, sqlalchemy
+keys = root, tvhadikode, sqlalchemy, wsgi
 
 [handlers]
 keys = console
@@ -67,6 +79,12 @@ handlers = console
 level = WARN
 handlers =
 qualname = tvhadikode
+
+[logger_wsgi]
+level = WARN
+handlers = console
+qualname = wsgi
+propagate = 0
 
 [logger_sqlalchemy]
 level = WARN

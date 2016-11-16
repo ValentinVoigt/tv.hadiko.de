@@ -5,6 +5,7 @@ import locale
 from pyramid.config import Configurator
 from pyramid.settings import asbool
 from sqlalchemy import engine_from_config
+from paste.translogger import TransLogger
 
 from .models import (
     DBSession,
@@ -38,6 +39,7 @@ def main(global_config, **settings):
     config.add_route('service', '/services/{service}')
     config.add_route('watch.multicast', '/playlist/tv_multicast.m3u')
     config.add_route('watch.unicast', '/playlist/tv_unicast.m3u')
+    config.add_route('watch.xmltv', '/playlist/xmltv.xml')
     config.add_route('service.watch.multicast', '/services/{service}/multicast.m3u')
     config.add_route('service.watch.unicast', '/services/{service}/unicast.m3u')
 
@@ -48,4 +50,7 @@ def main(global_config, **settings):
     config.add_route('ajax.search.programs', '/ajax/search/programs/{query}')
 
     config.scan()
-    return config.make_wsgi_app()
+
+    app = config.make_wsgi_app()
+    app = TransLogger(app, setup_console_handler=False)
+    return app

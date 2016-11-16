@@ -2,6 +2,7 @@
 
 import os
 import sys
+import shutil
 
 from pyramid.paster import bootstrap
 from pyramid.path import AssetResolver
@@ -18,6 +19,11 @@ def main():
 
     bootstrap(sys.argv[1])
 
+    if shutil.which('convert') is None:
+        print('Error: ImageMagick not found ("convert" is not in $PATH)')
+        print('Try: sudo apt-get install imagemagick')
+        sys.exit(2)
+
     create_logos()
 
 def create_logos():
@@ -27,18 +33,28 @@ def create_logos():
 
     command = """
     mkdir -p opaque
-    convert -size 200x200 gradient:white-grey opaque/bg.png
-    convert -size 200x200 xc:none -fill gray65 -draw 'circle 130,-300 50,95' opaque/mask_glare.png
-    convert -size 200x200 xc:white -draw 'roundrectangle 0,0,200,200,15,15' -negate opaque/mask_rounded.png
+    convert -size 200x200 gradient:gray50-gray25 -distort SRT -45 opaque/bg.png
+
+    # Some logos need special treatment for dark backgrounds
+    convert 11100.png -modulate 200% 11100_opaque.png
+    convert 28106.png -modulate 200% 28106_opaque.png
+    convert 28721.png -modulate 200% 28721_opaque.png
+    convert 12113.png -negate 12113_opaque.png
+    convert 24108.png -negate 24108_opaque.png
+    convert 24101.png -negate 24101_opaque.png
+    convert 12108.png -gamma 1.8 12108_opaque.png
 
     find -maxdepth 1 -regextype posix-egrep -regex ".*/[0-9]+\.png" | while read fname; do
         echo "> opaque/$(basename $fname)"
-        convert opaque/bg.png -gravity center "$fname" -geometry 200x200 -composite\
-            -compose soft_light opaque/mask_glare.png -composite\
-            -compose copy_opacity opaque/mask_rounded.png -composite "opaque/$fname"
+        if [ -f "${fname%.png}_opaque.png" ]; then
+            in_name="${fname%.png}_opaque.png"
+        else
+            in_name="$fname"
+        fi
+        convert -size 200x200 opaque/bg.png -gravity center \\( "$in_name" -resize 160 \\) -composite -colorspace RGB "opaque/$fname"
     done
 
-    rm opaque/bg.png opaque/mask_glare.png opaque/mask_rounded.png
+    rm *_opaque.png opaque/bg.png
     """
 
     os.system(command)
