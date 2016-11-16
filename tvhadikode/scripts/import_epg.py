@@ -41,7 +41,13 @@ def set_foreign_key_checks(enable):
 
 def import_epg(url):
     print("Downloading %s..." % url)
-    eit = str(urllib.request.urlopen(url).read(), "utf-8", 'replace')
+
+    try:
+        eit = str(urllib.request.urlopen(url).read(), "utf-8", 'replace')
+    except Exception as e:
+        print("Download failed: %s" % e)
+        return
+
     print("JSON parsing...")
     eit = re.sub(r'"language" : ".*".*",$', r'"language" : "",', eit, flags=re.M)
     eit = re.sub(r'("descr" : "[^"]+")(\s*")', r"\1,\2", eit, flags=re.M)
