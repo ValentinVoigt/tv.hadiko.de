@@ -22,16 +22,10 @@
 </%def>
 
 <%def name="watch_service(service, glyphicon=True)">
-    <a href="${request.route_path('service.watch.multicast', service=service.slug)}">
+    <a href="${request.route_path('service.watch', service=service.slug, filename=service.slug)}">
         % if glyphicon:
             <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
         % endif
         jetzt schauen
     </a>
-    &nbsp;
-    <small>
-        <a href="${request.route_path('service.watch.unicast', service=service.slug)}">
-            (alternativ)
-        </a>
-    </small>
 </%def>

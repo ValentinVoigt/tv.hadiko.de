@@ -37,11 +37,9 @@ def main(global_config, **settings):
     config.add_route('help', '/help')
     config.add_route('status', '/status')
     config.add_route('service', '/services/{service}')
-    config.add_route('watch.multicast', '/playlist/tv_multicast.m3u')
-    config.add_route('watch.unicast', '/playlist/tv_unicast.m3u')
+    config.add_route('service.watch', '/services/{service}/{filename}.m3u')
+    config.add_route('watch.all', '/playlist/tv.hadiko.de.m3u')
     config.add_route('watch.xmltv', '/playlist/xmltv.xml')
-    config.add_route('service.watch.multicast', '/services/{service}/multicast.m3u')
-    config.add_route('service.watch.unicast', '/services/{service}/unicast.m3u')
 
     config.add_route('ajax.epg_update', '/ajax/epg-update')
     config.add_route('ajax.status.traffic', '/ajax/status/traffic')

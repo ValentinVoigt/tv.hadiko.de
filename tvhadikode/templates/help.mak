@@ -17,13 +17,6 @@
 </p>
 
 <p>
-    Der <i>„Jetzt schauen“</i>-Link bringt dich zum sogenannten Multicast Stream. Dieser hilft uns
-    Traffic zu sparen und die Serverlast gering zu halten. Es kann allerdings passieren, dass dieser
-    bei dir nicht funktioniert. Falls das der Fall ist, verwende stattdessen den
-    <i>„alternativ“</i>-Link.
-</p>
-
-<p>
     Wenn dein Browser dich fragt, womit er die <code>m3u</code>-Dateien öffnen soll, dann kannst du
     in diesem Fenster den VLC-Player auswählen. Im Google Chrome kannst du einen Rechtsklick auf
     deinen Download machen und dort <i>„Dateien dieses Typs immer öffnen“</i>. Wenn du das
@@ -56,10 +49,7 @@
 
 <blockquote>
     <p>
-        Multicast Playlist: <samp><a href="${request.route_path("watch.multicast")}">tv_multicast.m3u</a></samp>
-    </p>
-    <p>
-        Unicast Playlist: <samp><a href="${request.route_path("watch.unicast")}">tv_unicast.m3u</a></samp>
+        Playlist: <samp><a href="${request.route_path("watch.all")}">tv.hadiko.de.m3u</a></samp>
     </p>
     <p>
         <span class="text-muted">(Rechtsklick → Link speichern unter...)</span>
