@@ -50,7 +50,7 @@
                     </div>
                     <div class="col-xs-4">
                         <p class="text-muted text-center">
-                            <span class="text-muted">&copy; 2015, </span>
+                            <span class="text-muted">&copy; 2017, </span>
                             <a href="mailto:support@hadiko.de">HaDiNet</a>
                         </p>
                     </div>
